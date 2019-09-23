@@ -18,28 +18,25 @@ namespace GuardianAPI.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult GetAll()
-        {
-            return Ok(_userRepository.GetAllUsers());
-        }
+        //public IActionResult GetAll()
+        //{
+        //    return Ok(_userRepository.GetAllUsers());
+        //}
 
-        public IActionResult GetDetails(int id)
-        {
-            return Ok(_userRepository.GetUser(id));
-        }
+        //public IActionResult GetDetails(int id)
+        //{
+        //    return Ok(_userRepository.GetUser(id));
+        //}
 
-        public IActionResult CreateUser(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                var createdUser = _userRepository.Add(user);
-                return Ok(createdUser);
-            }
-
-            return StatusCode(500, "Internal Server Error");
-
-
-        }
+        //public IActionResult CreateUser(User user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var createdUser = _userRepository.Add(user);
+        //        return Ok(createdUser);
+        //    }
+        //    return StatusCode(500, "Internal Server Error");
+        //}
 
 
 

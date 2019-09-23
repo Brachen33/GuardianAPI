@@ -27,8 +27,7 @@ namespace GuardianAPI.Models
         public int? TestID { get; set; }
         public int Active { get; set; }
 
-        // Nav Properties
-        public Participant Participant { get; set; }
+        // Nav Properties       
         public IEnumerable<ResultDetail> ResultDetails { get; set; }
 
         public Result()

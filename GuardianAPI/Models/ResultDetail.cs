@@ -20,9 +20,6 @@ namespace GuardianAPI.Models
         public string OBR_4_2 { get; set; }
         public string OBR_25_1 { get; set; }
         public int? OBX_1_1 { get; set; }
-
-
-        //Nav properties
-        public Result Result { get; set; }
+     
     }
 }

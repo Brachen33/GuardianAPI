@@ -41,19 +41,17 @@ namespace GuardianAPI.Models
         public int RegionID { get; set; }
 
         // One Participant to many results
-        public Contact Contact { get; set; }
-        public ParticipantSchedule ParticipantSchedule { get; set; }
-        public IEnumerable<Result> Results { get; set; }       
-        public User User { get; set; }
-        public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+    //  public Contact Contact { get; set; }
+   //     public ParticipantSchedule ParticipantSchedule { get; set; }
+   //     public IEnumerable<Result> Results { get; set; }    
+   //     public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
 
         public Participant()
         {
-            Contact = new Contact();
-            ParticipantPanels = new List<ParticipantPanel>();
-            ParticipantSchedule = new ParticipantSchedule();
-            Results = new List<Result>();
-            User = new User();
+    //      Contact = new Contact();
+     //       ParticipantPanels = new List<ParticipantPanel>();
+     //       ParticipantSchedule = new ParticipantSchedule();
+     //       Results = new List<Result>();    
         }
     }
 }

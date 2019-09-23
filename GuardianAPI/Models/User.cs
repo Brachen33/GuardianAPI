@@ -84,11 +84,13 @@ namespace GuardianAPI.Models
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
 
-        public IEnumerable<Participant> Participants { get; set; }
+        public List<Participant> Participants { get; set; }           
+    //    public Contact Contact { get; set; }
 
         public User()
         {
-            IEnumerable<Participant> Participants = new List<Participant>();
+            List<Participant> Participants = new List<Participant>();
+   //         Contact = new Contact();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using GuardianAPI.BLL;
 using GuardianAPI.DTOs;
 using GuardianAPI.Interfaces;
-
+using GuardianAPI.DTOs;
 using GuardianAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using GuardianAPI.DTOs.Guardian;
 
 namespace GuardianAPI.Controllers
 {
@@ -52,7 +53,7 @@ namespace GuardianAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                 Participant newParticipant = _participantRepository.Add(participant);
+                 Participant newParticipant =  _participantRepository.Add(participant);
                 return RedirectToAction("details", new { id = newParticipant.Id });
             }
             return View();
@@ -100,7 +101,7 @@ namespace GuardianAPI.Controllers
         /// <returns>The DTO after it has been successfully saved</returns>
         [HttpPost]
         [Route("guardiancreateparticipant")]
-        public IActionResult GuardianCreateParticipant([FromBody] GuardianCreateParticipantDTO dto)
+        public IActionResult GuardianCreateParticipant([FromBody] GuardianCreateDTO dto)
         {
             if (!ModelState.IsValid)
             {

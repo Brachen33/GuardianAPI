@@ -23,8 +23,9 @@ namespace GuardianAPI.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
+        public int UpdatedBy { get; set; }        
 
+        public User User { get; set; }
         public Participant Participant { get; set; }
     }
 }

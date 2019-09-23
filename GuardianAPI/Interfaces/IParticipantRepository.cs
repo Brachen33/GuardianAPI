@@ -1,4 +1,5 @@
 ﻿using GuardianAPI.DTOs;
+using GuardianAPI.DTOs.Guardian;
 using GuardianAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace GuardianAPI.Interfaces
         // Retrieves Results and Result Details
        // Participant GetParticipantWithResults(int id);
         //
-        GuardianCreateParticipantDTO CreateParticipantFromGuardian(GuardianCreateParticipantDTO participantDTO);
+        User CreateParticipantFromGuardian(GuardianCreateDTO participantDTO);
 
     }
 }
