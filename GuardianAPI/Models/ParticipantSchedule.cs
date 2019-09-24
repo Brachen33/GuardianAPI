@@ -11,14 +11,10 @@ namespace GuardianAPI.Models
     public class ParticipantSchedule
     {
         public int Id { get; set; }
-        public int ParticipantId { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
-        [DataType(DataType.Date)]
+        public int ParticipantId { get; set; }     
+        public DateTime StartDate { get; set; }       
         public DateTime EndDate { get; set; }
-        public int ScheduleId { get; set; }
-        [Required]
-        [StringLength(1,ErrorMessage ="Schedule Model can only be one character")]
+        public int ScheduleId { get; set; }   
         public string ScheduleModel { get; set; }
         public int Frequency { get; set; }
         public int Sunday { get; set; }
@@ -33,7 +29,7 @@ namespace GuardianAPI.Models
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
 
-      public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+        public Participant Participant { get; set; }
      
     }
 }

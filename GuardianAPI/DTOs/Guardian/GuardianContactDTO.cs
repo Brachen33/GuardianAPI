@@ -8,8 +8,8 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianContactDTO
     {        
-      //  public int RecordID { get; set; }
-      //  public string RecordType { get; set; }
+        public int RecordID { get; set; }
+        public string RecordType { get; set; }
         public string Address1 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -17,5 +17,10 @@ namespace GuardianAPI.DTOs.Guardian
         [JsonProperty(PropertyName = "emailAddress")]
         public string Email { get; set; }
         public string Phone { get; set; }          
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
+        public int CreatedBy { get; set; }
+        public int UpdatedBy { get; set; }
+
     }
 }

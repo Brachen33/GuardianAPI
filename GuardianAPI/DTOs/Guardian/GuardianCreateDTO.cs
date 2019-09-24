@@ -7,6 +7,6 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianCreateDTO
     {
-       public  GuardianUserDTO DTO { get; set; }
+       public  GuardianUserDTO User { get; set; }
     }
 }

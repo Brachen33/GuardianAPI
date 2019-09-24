@@ -39,15 +39,19 @@ namespace GuardianAPI.Models
         public int UpdatedBy { get; set; }
         public int RegionID { get; set; }
 
-
+        // Navigation Properties
         public User User { get; set; }
         public Contact Contact { get; set; }
-        public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+        public List<ParticipantPanel> ParticipantPanels { get; set; }
+        public List<Requisition> Requisitions { get; set; }
+        public ParticipantSchedule ParticipantSchedule { get; set; }
       
         public Participant()
-        {
+        {           
             Contact = new Contact();
             ParticipantPanels = new List<ParticipantPanel>();
+            Requisitions = new List<Requisition>();
+            ParticipantSchedule = new ParticipantSchedule();
         }
     }
 }

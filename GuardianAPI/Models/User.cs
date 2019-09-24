@@ -86,13 +86,13 @@ namespace GuardianAPI.Models
 
         public List<Participant> Participants { get; set; }           
         public Contact Contact { get; set; }
-        public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+        //public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
 
         public User()
         {
-            List<Participant> Participants = new List<Participant>();
+            Participants = new List<Participant>();
             Contact = new Contact();
-            ParticipantPanels = new List<ParticipantPanel>();
+            //ParticipantPanels = new List<ParticipantPanel>();
         }
     }
 }

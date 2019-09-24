@@ -11,7 +11,12 @@ namespace GuardianAPI.Repositories
     {
         public LogEntry Add(LogEntry logEntry)
         {
-            throw new NotImplementedException();
+            if (logEntry != null)
+            {
+                
+
+            }
+          
         }
 
         public IEnumerable<LogEntry> GetAllLogEntries()

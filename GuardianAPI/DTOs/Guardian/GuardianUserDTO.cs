@@ -52,6 +52,7 @@ namespace GuardianAPI.DTOs
 
         public GuardianContactDTO Contact { get; set; }
         public IEnumerable<GuardianParticipantCreateDTO> Participants { get; set; }       
+       
 
 
         public GuardianUserDTO()

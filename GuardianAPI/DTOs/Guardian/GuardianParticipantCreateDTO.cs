@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GuardianAPI.DTOs
 {
     public class GuardianParticipantCreateDTO
-    {        
+    {
         public int CompanyID { get; set; }
         [Required]
         [StringLength(15, ErrorMessage = "You must enter a Social Security Number")]
@@ -29,16 +29,24 @@ namespace GuardianAPI.DTOs
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
         [DataType(DataType.Date)]
-        public DateTime? DOB { get; set; }       
-       
+        public DateTime? DOB { get; set; }
+
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
         public int RegionID { get; set; }
 
         // One Participant to many results
         public GuardianContactDTO Contact { get; set; }
-        public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }       
-        public List<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
+        public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
+        public IEnumerable<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
+        public IEnumerable<GuardianRequisitionDTO> Requisitions { get; set; }
 
+        public GuardianParticipantCreateDTO()
+        {
+            Contact = new GuardianContactDTO();
+            ParticipantSchedule = new GuardianParticipantScheduleDTO();
+            ParticipantPanels = new List<GuardianParticipantPanelDTO>();
+            Requisitions = new List<GuardianRequisitionDTO>();
+        }
     }
 }

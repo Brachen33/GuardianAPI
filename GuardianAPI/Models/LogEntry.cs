@@ -20,5 +20,11 @@ namespace GuardianAPI.Models
         public string Description { get; set; }
         public int RecordId { get; set; }
         public string RecordType { get; set; }
+
+
+        public LogEntry()
+        {
+        }
+
     }
 }
