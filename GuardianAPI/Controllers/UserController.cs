@@ -18,6 +18,10 @@ namespace GuardianAPI.Controllers
             _userRepository = userRepository;
         }
 
+
+
+
+        //[Route("index")]
         //public IActionResult GetAll()
         //{
         //    return Ok(_userRepository.GetAllUsers());

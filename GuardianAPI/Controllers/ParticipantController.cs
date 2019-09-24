@@ -1,7 +1,6 @@
 ﻿using GuardianAPI.BLL;
 using GuardianAPI.DTOs;
 using GuardianAPI.Interfaces;
-using GuardianAPI.DTOs;
 using GuardianAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,21 +9,23 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using GuardianAPI.DTOs.Guardian;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GuardianAPI.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class ParticipantController : Controller
     {
-        private readonly IParticipantRepository _participantRepository;        
+        private readonly IParticipantRepository _participantRepository;
 
         public ParticipantController(IParticipantRepository participantRepository)
         {
-            _participantRepository = participantRepository;           
+            _participantRepository = participantRepository;
         }
 
-       
+   
         [HttpGet("index")]
         public IActionResult Index()
         {
@@ -53,7 +54,7 @@ namespace GuardianAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                 Participant newParticipant =  _participantRepository.Add(participant);
+                Participant newParticipant = _participantRepository.Add(participant);
                 return RedirectToAction("details", new { id = newParticipant.Id });
             }
             return View();

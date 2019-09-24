@@ -14,5 +14,13 @@ namespace GuardianAPI.Models
         public string IssuedId { get; set; }
         public string ExternalId { get; set; }
         public string Name { get; set; }
+
+        public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+
+
+        public Region()
+        {
+            ParticipantPanels = new List<ParticipantPanel>();
+        }
     }
 }

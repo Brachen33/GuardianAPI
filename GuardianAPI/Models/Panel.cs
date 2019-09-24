@@ -26,5 +26,13 @@ namespace GuardianAPI.Models
         public int AutoConfirm { get; set; }
         public int Active { get; set; }
 
+        public IEnumerable<ParticipantPanel> ParticipantPanels  { get; set; }
+
+        public Panel()
+        {
+            ParticipantPanels = new List<ParticipantPanel>();
+        }
+
+
     }
 }

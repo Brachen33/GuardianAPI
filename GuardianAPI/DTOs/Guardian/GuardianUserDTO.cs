@@ -51,7 +51,8 @@ namespace GuardianAPI.DTOs
         public int UpdatedBy { get; set; }
 
         public GuardianContactDTO Contact { get; set; }
-        public IEnumerable<GuardianParticipantCreateDTO> Participants { get; set; }
+        public IEnumerable<GuardianParticipantCreateDTO> Participants { get; set; }       
+
 
         public GuardianUserDTO()
         {

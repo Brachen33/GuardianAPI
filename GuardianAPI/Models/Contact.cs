@@ -25,6 +25,8 @@ namespace GuardianAPI.Models
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }        
 
+
+        // Nav Properties
         public User User { get; set; }
         public Participant Participant { get; set; }
     }

@@ -29,65 +29,75 @@ namespace GuardianAPI.Repositories
 
         public User CreateParticipantFromGuardian(GuardianCreateDTO dto)
         {
-
-     
-
-
             // TODO: Check if the user exists
-        //        var user = _context.Users.FirstOrDefault(x => x.Id == dto.DTO.Id);
-
-        //    // Create a new user if the user does not exist
-        //    if (user == null)
-        //    {
-        //        var createdUser = dto.DTO.Adapt<User>();               
-
-        //        // Set Default properties for the User Record
-        //        createdUser.Active = 1;
-        //        createdUser.DateUpdated = DateTime.Now;
-        //        createdUser.DateCreated = DateTime.Now;
-        //     //   createdUser.Contact.RecordType = "USR";
-
-        //        // Set Default properties for the Participants
-        //        //foreach (var participant in createdUser.Participants)
-        //        //{
-        //        //    participant.DateCreated = DateTime.Now;
-        //        //    participant.DateUpdated = DateTime.Now;
-        //        //    participant.Active = 1;
-        //       //     participant.Contact.RecordType = "PID";
-        //    //    }
-
-        //    _context.Users.Add(createdUser);
-        //}
+               var user = _context.Users.FirstOrDefault(x => x.Id == dto.DTO.Id);
+                          
 
 
-        //// TODO: If user does not exist Create the User First
-        //if (dto.)
-        //{
-        //    var user = dto.User.Adapt<User>();
-        //    _context.Users.Add(user);                                             
-        //}
+            //    // Create a new user if the user does not exist
+            if (user == null)
+            {
+                // Map the DTO to the User Object
+                var createdUser = dto.DTO.Adapt<User>();
 
-        //// TODO: Create the Participant
-        //var participant = dto.Participant.Adapt<Participant>();
-        //_context.Participants.Add(participant);
+                // Set Default properties for the User Record
+                createdUser.Active = 1;
+                createdUser.DateUpdated = DateTime.Now;
+                createdUser.DateCreated = DateTime.Now;
 
-        //// TODO: Create The Contact
-        //var contact = dto.Contact.Adapt<Contact>();
-        //_context.Contacts.Add(contact);
+                // User Contact Record
+                createdUser.Contact.RecordType = "USR";
+                createdUser.Contact.DateCreated = DateTime.Now;
+                createdUser.Contact.DateUpdated = DateTime.Now;
 
-        //// TODO: Create the ParticipantSchedule
-        //var participantSchedule = dto.ParticipantSchedule.Adapt<ParticipantSchedule>();
-        //_context.ParticipantSchedules.Add(participantSchedule);
 
-        //// TODO: Create The Requisition
-        //var requistion = dto.Requisition.Adapt<Requisition>();
-        //_context.Requisitions.Add(requistion);
+                // Set the  Default Participant Properites
+                    createdUser.Participants.ForEach(x => {
+                        x.DateCreated = DateTime.Now;
+                        x.DateUpdated = DateTime.Now;
+                        x.Active = 1;
+                    
+                        // Set Default Contact Properties
+                        x.Contact.RecordType = "PID";
+                        x.Contact.DateCreated = DateTime.Now;
+                        x.Contact.DateUpdated = DateTime.Now;
+                    });              
 
-        //// TODO: Create the Log Entry
-        //var logEntry = dto.LogEntry.Adapt<LogEntry>();
-        //_context.LogEntries.Add(logEntry);
+                _context.Users.Add(createdUser);
+            }
 
-        _context.SaveChanges();
+
+
+
+
+            //// TODO: If user does not exist Create the User First
+            //if (dto.)
+            //{
+            //    var user = dto.User.Adapt<User>();
+            //    _context.Users.Add(user);                                             
+            //}
+
+            //// TODO: Create the Participant
+            //var participant = dto.Participant.Adapt<Participant>();
+            //_context.Participants.Add(participant);
+
+            //// TODO: Create The Contact
+            //var contact = dto.Contact.Adapt<Contact>();
+            //_context.Contacts.Add(contact);
+
+            //// TODO: Create the ParticipantSchedule
+            //var participantSchedule = dto.ParticipantSchedule.Adapt<ParticipantSchedule>();
+            //_context.ParticipantSchedules.Add(participantSchedule);
+
+            //// TODO: Create The Requisition
+            //var requistion = dto.Requisition.Adapt<Requisition>();
+            //_context.Requisitions.Add(requistion);
+
+            //// TODO: Create the Log Entry
+            //var logEntry = dto.LogEntry.Adapt<LogEntry>();
+            //_context.LogEntries.Add(logEntry);
+
+            _context.SaveChanges();
 
             return null;
         }

@@ -37,6 +37,8 @@ namespace GuardianAPI.DTOs
 
         // One Participant to many results
         public GuardianContactDTO Contact { get; set; }
-        public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }      
+        public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }       
+        public List<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
+
     }
 }

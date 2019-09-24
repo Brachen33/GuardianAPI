@@ -26,8 +26,19 @@ namespace GuardianAPI.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
+        public int UpdatedBy { get; set; }      
 
-      
+        public Participant Participant { get; set; }
+        public Panel Panel { get; set; }
+        public User User { get; set; }
+        public Region Region { get; set; }
+        public ParticipantSchedule ParticipantSchedule { get; set; }
+        //  private Company Company { get; set; }
+
+        public ParticipantPanel()
+        {
+            Panel = new Panel();
+
+        }
     }
 }

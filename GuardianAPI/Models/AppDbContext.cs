@@ -18,6 +18,7 @@ namespace GuardianAPI.Models
         public DbSet<Collection> Collections { get; set; }
         public DbSet<CollectionSite> CollectionSites { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<Panel> Panels { get; set; }
         public DbSet<Participant> Participants { get; set; }
@@ -35,6 +36,49 @@ namespace GuardianAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Participants)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.CaseManagerID);
+
+            modelBuilder.Entity<User>()
+                .HasOne(x => x.Contact)
+                .WithOne(x => x.User)
+                .HasForeignKey<Contact>(x => x.RecordID);
+
+            modelBuilder.Entity<Participant>()
+                .HasOne(x => x.Contact)
+                .WithOne(x => x.Participant)
+                .HasForeignKey<Contact>(x => x.RecordID);
+
+            // Participant Panel JOINS
+            modelBuilder.Entity<ParticipantPanel>()
+                .HasOne(x => x.Participant)
+                .WithMany(x => x.ParticipantPanels)
+                .HasForeignKey(x => x.ParticipantId);
+
+            modelBuilder.Entity<ParticipantPanel>()
+                .HasOne(x => x.Panel)
+                .WithMany(x => x.ParticipantPanels)
+                .HasForeignKey(x => x.PanelId);
+
+            modelBuilder.Entity<ParticipantPanel>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.ParticipantPanels)
+                .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<ParticipantPanel>()
+                .HasOne(x => x.ParticipantSchedule)
+                .WithMany(x => x.ParticipantPanels)
+                .HasForeignKey(x => x.ScheduleId);
+                
+
+            modelBuilder.Entity<ParticipantPanel>()
+                .HasOne(x => x.Region)
+                .WithMany(x => x.ParticipantPanels)
+                .HasForeignKey(x => x.RegionId);
+
+
             //modelBuilder.Entity<User>()
             //    .HasOne(x => x.Contact)
             //    .WithOne(x => x.User)

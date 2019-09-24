@@ -9,6 +9,7 @@ using GuardianAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,10 +37,13 @@ namespace GuardianAPI
 
             // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+      
             services.AddMvc();
-     //   .AddJsonOptions(
-     //       options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-     //   ).AddXmlSerializerFormatters(); 
+
+           
+            //   .AddJsonOptions(
+            //       options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //   ).AddXmlSerializerFormatters(); 
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -87,6 +91,8 @@ namespace GuardianAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+                   
 
             app.UseHttpsRedirection();
             app.UseMvc();

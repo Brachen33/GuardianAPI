@@ -9,6 +9,14 @@ namespace GuardianAPI.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        private readonly AppDbContext _context;
+
+        public UserRepository(AppDbContext context)
+        {
+            _context = context; 
+        }
+
+
         public User Add(User user)
         {
             throw new NotImplementedException();
@@ -21,7 +29,7 @@ namespace GuardianAPI.Repositories
 
         public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return _context.Users;
         }
 
         public User GetUser(int Id)

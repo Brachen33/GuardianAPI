@@ -32,6 +32,8 @@ namespace GuardianAPI.Models
         public DateTime? DateCreated { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
+
+      public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
      
     }
 }
