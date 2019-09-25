@@ -40,6 +40,7 @@ namespace GuardianAPI.DTOs
         public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
         public IEnumerable<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
         public IEnumerable<GuardianRequisitionDTO> Requisitions { get; set; }
+        public IEnumerable<GuardianTestScheduleDTO> TestSchedules { get; set; }        
 
         public GuardianParticipantCreateDTO()
         {
@@ -47,6 +48,8 @@ namespace GuardianAPI.DTOs
             ParticipantSchedule = new GuardianParticipantScheduleDTO();
             ParticipantPanels = new List<GuardianParticipantPanelDTO>();
             Requisitions = new List<GuardianRequisitionDTO>();
+            TestSchedules = new List<GuardianTestScheduleDTO>();
+
         }
     }
 }

@@ -12,6 +12,7 @@ namespace GuardianAPI.Interfaces
         IEnumerable<Panel> GetAllPanels();
         Panel Add(Panel panel);
         Panel Update(Panel panelChanges);
-        Panel Delete(int id);
+        Panel GetPanelByPanelCode(string code);
+       
     }
 }

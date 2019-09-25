@@ -10,7 +10,7 @@ namespace GuardianAPI.Interfaces
     {
         LogEntry GetLogEntry(int Id);
         IEnumerable<LogEntry> GetAllLogEntries();
-        LogEntry Add(LogEntry logEntry);
+      //  LogEntry Add(LogEntry logEntry);
         LogEntry Update(LogEntry logEntryChanges);
     }
 }

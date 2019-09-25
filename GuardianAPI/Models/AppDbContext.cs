@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GuardianAPI.Models.PSIManager;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace GuardianAPI.Models
         public DbSet<CollectionSite> CollectionSites { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Lab> Labs { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<Panel> Panels { get; set; }
         public DbSet<Participant> Participants { get; set; }
@@ -29,8 +31,15 @@ namespace GuardianAPI.Models
         public DbSet<Result> Results { get; set; }
         public DbSet<ResultDetail> ResultDetails { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<TestSchedule> TestSchedules { get; set; }
+        public DbSet<TestPanel> TestPanels { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+
+        #region PSI_Manager
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<PSIUser> PSIUsers { get; set; }
+        #endregion
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -59,93 +68,16 @@ namespace GuardianAPI.Models
                 .WithOne(x => x.Participant)
                 .HasForeignKey<Contact>(x => x.RecordID);
 
-            //modelBuilder.Entity<Requisition>()
-            //    .HasOne(x => x.Participant)
-            //    .WithMany(x => x.Requisitions)
-            //    .HasForeignKey(x => x.ParticipantId);
 
-            //// Participant Panel JOINS
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.Participant)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.ParticipantId);
+            modelBuilder.Entity<TestSchedule>()
+               .HasMany(p => p.TestPanels)
+               .WithOne(t => t.TestSchedule)
+               .HasForeignKey(p => p.TestID);
 
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.Panel)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.PanelId);
-
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.User)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.UserId);
-
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.ParticipantSchedule)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.ScheduleId);
-
-
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.Region)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.RegionId);
-
-            //modelBuilder.Entity<ParticipantPanel>()
-            //    .HasOne(x => x.Company)
-            //    .WithMany(x => x.ParticipantPanels)
-            //    .HasForeignKey(x => x.CompanyId);
-
-
-
-            //modelBuilder.Entity<User>()
-            //    .HasOne(x => x.Contact)
-            //    .WithOne(x => x.User)
-            //    .HasForeignKey<Contact>(x => x.RecordID);
-
-            //modelBuilder.Entity<Participant>()
-            //    .HasOne(x => x.Contact)
-            //    .WithOne(x => x.Participant)
-            //    .HasForeignKey<Contact>(x => x.RecordID);
-
-            // Add List of Results to a Participant
-            // modelBuilder.Entity<Participant>()
-            //     .HasMany(x => x.Results)
-            //     .WithOne(x => x.Participant)
-            //     .HasForeignKey(x => x.ParticipantId);
-
-            // // Attach Contact to Participant (1:1)
-            // // TODO: Make the RecordID on Contact a composite / secondary foreign key set to "PID"
-            //modelBuilder.Entity<Participant>()
-            //    .HasOne(x => x.Contact)
-            //    .WithOne(x => x.Participant)
-            //    .HasForeignKey<Contact>(x => x.RecordID);
-
-            // // Attach ParticipantSchedule to a participant
-            // // TODO: ask Vince if this is one to one
-            // modelBuilder.Entity<Participant>()
-            //     .HasOne(x => x.ParticipantSchedule)
-            //     .WithOne(x => x.Participant)
-            //     .HasForeignKey<ParticipantSchedule>(x => x.ParticipantId);
-
-            // // Attach Participants to a User
-            //// modelBuilder.Entity<User>()
-            ////     .HasMany(x => x.Participants)
-            ////     .WithOne(x => x.User)
-            ////     .HasForeignKey(x => x.CaseManagerID);
-
-
-            // // Add List of ResultDetails to Results
-            // modelBuilder.Entity<Result>()
-            //     .HasMany(x => x.ResultDetails)
-            //     .WithOne(x => x.Result)
-            //     .HasForeignKey(x => x.ResultID);
-
-            // //Join the Participant to it's Participant Panel
-            // modelBuilder.Entity<Participant>()
-            //     .HasMany(x => x.ParticipantPanels)
-            //     .WithOne(x => x.Participant)
-            //     .HasForeignKey(x => x.ParticipantId);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TestPanel>().HasKey(
+                t => new { t.TestID }
+                );
         }
     }
 }

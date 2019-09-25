@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace GuardianAPI.DTOs.Guardian
 {
-    public class GuardianCreateDTO
+    public class GuardianPSIUser
     {
-      
 
-
-       public  GuardianUserDTO User { get; set; }
     }
 }

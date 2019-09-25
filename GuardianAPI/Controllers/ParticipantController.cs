@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading.Tasks;
 using GuardianAPI.DTOs.Guardian;
 using Microsoft.AspNetCore.Authorization;
+using GuardianAPI.Interfaces.ILoggerManager;
 
 namespace GuardianAPI.Controllers
 {
@@ -19,17 +20,19 @@ namespace GuardianAPI.Controllers
     public class ParticipantController : Controller
     {
         private readonly IParticipantRepository _participantRepository;
+        private readonly ILoggerManager _logger;
 
-        public ParticipantController(IParticipantRepository participantRepository)
+        public ParticipantController(IParticipantRepository participantRepository,ILoggerManager logger)
         {
             _participantRepository = participantRepository;
+            _logger = logger;
         }
 
    
         [HttpGet("index")]
         public IActionResult Index()
         {
-            var model = _participantRepository.GetAllParticipants();
+            var model = _participantRepository.GetAllParticipants();          
             return Ok(model);
         }
 
@@ -111,13 +114,8 @@ namespace GuardianAPI.Controllers
             else
             {
                 var createdParticipant = _participantRepository.CreateParticipantFromGuardian(dto);
-                return Ok(createdParticipant);
+                return Ok("Success!");
             }
         }
-
-
-
-
-
     }
 }

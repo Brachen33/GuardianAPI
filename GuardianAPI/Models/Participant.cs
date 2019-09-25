@@ -45,6 +45,8 @@ namespace GuardianAPI.Models
         public List<ParticipantPanel> ParticipantPanels { get; set; }
         public List<Requisition> Requisitions { get; set; }
         public ParticipantSchedule ParticipantSchedule { get; set; }
+        public List<TestSchedule> TestSchedules { get; set; }
+
       
         public Participant()
         {           

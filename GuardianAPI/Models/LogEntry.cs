@@ -24,6 +24,7 @@ namespace GuardianAPI.Models
 
         public LogEntry()
         {
+
         }
 
     }

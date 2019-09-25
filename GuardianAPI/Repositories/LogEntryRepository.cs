@@ -9,15 +9,15 @@ namespace GuardianAPI.Repositories
 {
     public class LogEntryRepository : ILogEntryRepository
     {
-        public LogEntry Add(LogEntry logEntry)
-        {
-            if (logEntry != null)
-            {
+        //public LogEntry Add(LogEntry logEntry)
+        //{
+        //    if (logEntry != null)
+        //    {
                 
 
-            }
+        //    }
           
-        }
+        //}
 
         public IEnumerable<LogEntry> GetAllLogEntries()
         {

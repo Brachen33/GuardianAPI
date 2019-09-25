@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GuardianAPI.BLL;
 using GuardianAPI.Interfaces;
+using GuardianAPI.Interfaces.ILoggerManager;
+using GuardianAPI.Interfaces.PSIManager;
+using GuardianAPI.LoggerService;
 using GuardianAPI.Models;
 using GuardianAPI.Repositories;
+using GuardianAPI.Repositories.PSIManager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,8 +29,10 @@ namespace GuardianAPI
     {
         private IConfiguration _config;
 
-        public Startup(IConfiguration config)
+        public Startup(IConfiguration config, ILoggerFactory loggerFactory)
         {
+            NLog.LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
             _config = config;
         }
 
@@ -34,6 +41,8 @@ namespace GuardianAPI
         {
             services.AddDbContext<AppDbContext>(
                 options => options.UseMySql(_config.GetConnectionString("DCSConnectionStringDevelopment")));
+
+            
 
             // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -64,8 +73,16 @@ namespace GuardianAPI
             services.AddScoped<IResultRepository, ResultRepository>();
             services.AddScoped<IResultDetailRepository, ResultDetailRepository>();
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<ITestPanelRepository, TestPanelRepository>();
+            services.AddScoped<ITestScheduleRepository, TestScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+            // PSI Manager implementations
+            services.AddScoped<IClientRepository, ClientRepository>();
+
+            // Register NLogger for DI
+            services.AddScoped<ILoggerManager, LoggerManager>();
 
             // Test Services(for DI)
           //  services.AddScoped<IParticipantExtended, ParticipantExtended>();

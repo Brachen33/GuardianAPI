@@ -1,4 +1,5 @@
 ﻿using GuardianAPI.Interfaces;
+using GuardianAPI.Interfaces.ILoggerManager;
 using GuardianAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -9,29 +10,49 @@ namespace GuardianAPI.Repositories
 {
     public class PanelRepository : IPanelRepository
     {
-        public Panel Add(Panel panel)
+        private readonly AppDbContext _context;
+        private readonly ILoggerManager _logger;
+
+        public PanelRepository(AppDbContext context, ILoggerManager logger)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _logger = logger;
         }
 
-        public Panel Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public Panel Add(Panel panel)
+        {            
+            _context.Panels.Add(panel);
+            _context.SaveChanges();
+            return panel;
+        }        
 
         public IEnumerable<Panel> GetAllPanels()
         {
-            throw new NotImplementedException();
+            return _context.Panels;
         }
 
         public Panel GetPanel(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Panels.Find(Id);
+        }
+
+        public Panel GetPanelByPanelCode(string code)
+        {
+            var panel = _context.Panels.FirstOrDefault(x => x.LabPanelCode == code);
+            return panel;
         }
 
         public Panel Update(Panel panelChanges)
         {
-            throw new NotImplementedException();
+            var panel = _context.Panels.Attach(panelChanges);
+            panel.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return panelChanges;
         }
+
+
+
     }
 }
+
