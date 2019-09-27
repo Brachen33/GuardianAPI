@@ -84,6 +84,8 @@ namespace GuardianAPI
             // Register NLogger for DI
             services.AddScoped<ILoggerManager, LoggerManager>();
 
+            services.AddScoped<IResultGenerator, ResultGenerator>();
+
             // Test Services(for DI)
           //  services.AddScoped<IParticipantExtended, ParticipantExtended>();
           //  services.AddScoped<ITestLogic, TestLogic>();

@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace GuardianAPI.BLL
 {
     public static class PDFCreator
-    {
-
-
+    {        
 
         public static void GetPDF(PDFType type, Participant participant)
         {

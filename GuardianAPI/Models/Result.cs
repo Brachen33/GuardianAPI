@@ -26,6 +26,8 @@ namespace GuardianAPI.Models
         public string Corrected { get; set; }
         public int? TestID { get; set; }
         public int Active { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
 
         // Nav Properties       
         public IEnumerable<ResultDetail> ResultDetails { get; set; }

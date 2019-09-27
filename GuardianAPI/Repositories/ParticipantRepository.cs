@@ -34,7 +34,6 @@ namespace GuardianAPI.Repositories
         {
             // TODO: Check if the user exists
             // AM Testing           
-
             var user = _context.Users.Include(x => x.Participants).FirstOrDefault(x => x.Id == dto.User.Id);
 
             // Map the DTO to the User Object
@@ -87,7 +86,7 @@ namespace GuardianAPI.Repositories
                 else
                 {
                     pp.Active = 1;
-                    pp.DateCreated = DateTime.Now;
+                    // pp.DateCreated = DateTime.Now;
                     pp.DateUpdated = DateTime.Now;
 
                     // TODO: For testing only
@@ -97,8 +96,15 @@ namespace GuardianAPI.Repositories
             });
 
                 // Set Participant Schedule 1 : 1
-                x.ParticipantSchedule.Active = 1;
-                x.ParticipantSchedule.DateCreated = DateTime.Now;
+                if (x.ParticipantSchedule != null)
+                {
+                    x.ParticipantSchedule.Active = 1;
+                }
+                else
+                {
+                    x.ParticipantSchedule.DateCreated = DateTime.Now;
+                }
+
 
                 // Set the Participants Requisitions 1 : X
                 x.Requisitions.ForEach(r =>
@@ -140,13 +146,8 @@ namespace GuardianAPI.Repositories
                 });
                 }
             });
-
-
-
             _context.SaveChanges();
             return user;
-
-
         }
 
         public Participant Delete(int id)
