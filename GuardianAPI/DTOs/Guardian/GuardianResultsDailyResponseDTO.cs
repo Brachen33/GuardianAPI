@@ -8,6 +8,10 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianResultsDailyResponseDTO
     {
-        public Result Result { get; set; }
+        public int Id { get; set; }
+        public string PID_2_1 { get; set; }
+        public string PID_5_1 { get; set; }
+        public string PID_5_2 { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

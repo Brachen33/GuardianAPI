@@ -9,6 +9,6 @@ namespace GuardianAPI.Interfaces
 {
     public interface IPDFCreatorRepository
     {       
-        void GetPDF(PDFType type, int id); 
+        void GetPDF(PDFType type, int resultId); 
     }
 }

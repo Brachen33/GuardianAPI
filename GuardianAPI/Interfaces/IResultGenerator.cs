@@ -8,6 +8,6 @@ namespace GuardianAPI.Interfaces
 {
     public interface IResultGenerator
     {
-        GuardianResultsDailyResponseDTO ResultResponse();
+        List<GuardianResultsDailyResponseDTO> ResultResponse();
     }
 }

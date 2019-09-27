@@ -1,5 +1,6 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +10,39 @@ namespace GuardianAPI.Repositories
 {
     public class ResultRepository : IResultRepository
     {
-        public Result Add(Result result)
+        private readonly AppDbContext _context;
+
+        public ResultRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Result Delete(int id)
+        public Result Add(Result result)
         {
             throw new NotImplementedException();
         }
 
         public IEnumerable<Result> GetAllResults()
         {
-            throw new NotImplementedException();
+            return _context.Results;
         }
 
         public Result GetResult(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Results.Find(Id);
         }
 
         public Result Update(Result resultChanges)
         {
             throw new NotImplementedException();
+        }
+
+        public Result GetResultWithDetailById(int id)
+        {
+            return _context.Results
+                .Include(p => p.Panel)
+                .Include(rd => rd.ResultDetails)             
+                .FirstOrDefault(r => r.Id == id);
         }
     }
 }

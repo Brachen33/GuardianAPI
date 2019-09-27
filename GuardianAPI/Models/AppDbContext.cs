@@ -78,6 +78,15 @@ namespace GuardianAPI.Models
             modelBuilder.Entity<TestPanel>().HasKey(
                 t => new { t.TestID }
                 );
+
+            modelBuilder.Entity<Result>()
+                .HasOne(p => p.Panel)
+                .WithMany(x => x.Results)
+                .HasForeignKey(x => x.OBR_4_1)
+                .HasPrincipalKey(x => x.LabPanelCode);
+
+
+            
         }
     }
 }

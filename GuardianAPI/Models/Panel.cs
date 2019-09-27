@@ -27,10 +27,12 @@ namespace GuardianAPI.Models
         public int Active { get; set; }
 
         public List<TestPanel> TestPanels { get; set; }
+        public List<Result> Results { get; set; }
        
 
         public Panel()
         {
+            Results = new List<Result>();
             TestPanels = new List<TestPanel>();
         }
 

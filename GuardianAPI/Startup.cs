@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using GuardianAPI.BLL;
 using GuardianAPI.Interfaces;
@@ -11,6 +12,7 @@ using GuardianAPI.LoggerService;
 using GuardianAPI.Models;
 using GuardianAPI.Repositories;
 using GuardianAPI.Repositories.PSIManager;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace GuardianAPI
@@ -42,11 +45,23 @@ namespace GuardianAPI
             services.AddDbContext<AppDbContext>(
                 options => options.UseMySql(_config.GetConnectionString("DCSConnectionStringDevelopment")));
 
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = _config["Jwt:Issuer"],
+                        ValidAudience = _config["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]))
+                    };
+                });
             
 
-            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-      
             services.AddMvc();
 
            
@@ -85,6 +100,7 @@ namespace GuardianAPI
             services.AddScoped<ILoggerManager, LoggerManager>();
 
             services.AddScoped<IResultGenerator, ResultGenerator>();
+            services.AddScoped<IPDFCreatorRepository, PDFCreator>();
 
             // Test Services(for DI)
           //  services.AddScoped<IParticipantExtended, ParticipantExtended>();
@@ -114,6 +130,7 @@ namespace GuardianAPI
                    
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

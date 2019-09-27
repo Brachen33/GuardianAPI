@@ -12,6 +12,8 @@ namespace GuardianAPI.Interfaces
         IEnumerable<Result> GetAllResults();
         Result Add(Result result);
         Result Update(Result resultChanges);
-        Result Delete(int id);
+        Result GetResultWithDetailById(int id);
+
+
     }
 }

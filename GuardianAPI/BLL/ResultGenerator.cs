@@ -24,23 +24,26 @@ namespace GuardianAPI.BLL
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public GuardianResultsDailyResponseDTO ResultResponse()
+        public List<GuardianResultsDailyResponseDTO> ResultResponse()
         {
-            var results = _context.Results
-                .Select(x => new { 
-                    x.Id,
-                    x.PID_2_1,
-                    x.PID_5_1,
-                    x.PID_5_2,
-                    x.DateCreated
-                })
-                .Where(r => r.DateCreated == DateTime.Now.AddDays(-1));
+            // Date for testing on local
+            var testingDate = new DateTime(2017, 01, 17, 03, 00, 11);
 
-            var resultsDTO = results.Adapt<GuardianResultsDailyResponseDTO>();
+            var results = _context.Results
+                .Select(x => new Result
+                {
+                    Id = x.Id,
+                    PID_2_1 = x.PID_2_1,
+                    PID_5_1 = x.PID_5_1,
+                    PID_5_2 = x.PID_5_2,
+                    DateCreated = x.DateCreated
+                })
+                .Where(x => x.DateCreated == testingDate).ToList();
+            //   .Where(r => r.DateCreated == DateTime.Now.AddDays(-1));
+
+            var resultsDTO = results.Adapt<List<GuardianResultsDailyResponseDTO>>(); 
 
             return resultsDTO;
-
-
         }
     }
 }

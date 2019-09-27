@@ -63,18 +63,7 @@ namespace GuardianAPI.Controllers
             return View();
         }
 
-
-        [HttpGet]
-        [Route("getpdf/{participantId}")]
-        public IActionResult GuardianResultPDF(int participantId)
-        {
-            var participant = _participantRepository.GetParticipant(participantId);
-            PDFCreator.GetPDF(PDFType.GuardianExportPDF, participant);
-            // PDFCreator.CreateGuardianPDFResult(participantId,);
-            return Ok("Export Complete");
-        }
-
-
+               
 
         //[HttpGet]
         //[Route("getparticipantwithall/{id}")]
