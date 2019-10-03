@@ -20,6 +20,8 @@ namespace GuardianAPI.Models
         public DbSet<CollectionSite> CollectionSites { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentData> DocumentDatas { get; set; }
         public DbSet<Lab> Labs { get; set; }
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<Panel> Panels { get; set; }
@@ -84,6 +86,11 @@ namespace GuardianAPI.Models
                 .WithMany(x => x.Results)
                 .HasForeignKey(x => x.OBR_4_1)
                 .HasPrincipalKey(x => x.LabPanelCode);
+
+            modelBuilder.Entity<Document>()
+                .HasOne(x => x.DocumentData)
+                .WithOne(x => x.Document)
+                .HasForeignKey<DocumentData>(x => x.MetaId);
 
 
             

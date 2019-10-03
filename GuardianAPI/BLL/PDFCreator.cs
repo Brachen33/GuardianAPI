@@ -1,33 +1,38 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
 using System;
-using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using PdfSharp.Drawing;
+using System.Drawing.Imaging;
+
 
 namespace GuardianAPI.BLL
 {
     public class PDFCreator : IPDFCreatorRepository
     {
         private readonly IResultRepository _resultRepo;
+        private readonly IDocumentRepository _documentRepository;
 
-        public PDFCreator(IResultRepository resultRepo)
+        public PDFCreator(IResultRepository resultRepo, IDocumentRepository documentRepository)
         {
-           _resultRepo = resultRepo;
+            _resultRepo = resultRepo;
+            _documentRepository = documentRepository;
         }
 
         public void GetPDF(PDFType type, int resultId)
         {
             var result = _resultRepo.GetResultWithDetailById(resultId);
+            var participantPhoto = _documentRepository.GetLatestParticipantPhotoByParticipantId(result.ParticipantId);
 
             switch (type)
             {
                 case PDFType.GuardianExportPDF:
 
                     // Call the Create GuardianPDFResult method
-                    CreateGuardianPDFResult(result);
+                    CreateGuardianPDFResult(result, participantPhoto);
                     break;
 
                 case PDFType.None:
@@ -40,24 +45,55 @@ namespace GuardianAPI.BLL
             }
         }
 
+        public static Image ByteArrayToImage(byte[] byteArrayIn)
+        {
+            Image returnImage = null;
+            using (MemoryStream ms = new MemoryStream(byteArrayIn))
+            {
+                returnImage = Image.FromStream(ms);
+            }
+            return returnImage;
+        }
+
+        // Convert the Bitmap object to a byte array to insert into the database.
+        private byte[] ConvertImageToByteArray(Image imageToConvert, ImageFormat formatOfImage)
+        {
+            byte[] byteImage;
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    imageToConvert.Save(ms, formatOfImage);
+                    byteImage = ms.ToArray();
+                }
+            }
+
+            catch (Exception) { throw; }
+            return byteImage;
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
-        public static void CreateGuardianPDFResult(Result result)
-        {   
-            
+        public static void CreateGuardianPDFResult(Result result, byte[] participantPhoto)
+        {
+
             // Create PDF
-            var document = new PdfDocument();
+            var document = new PdfSharp.Pdf.PdfDocument();
             var page = document.AddPage();
             var gfx = XGraphics.FromPdfPage(page);
+
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             var font = new XFont("Arial", 10, XFontStyle.Regular);
 
             //Header info font
             var TestResultFont = new XFont("Arial", 16, XFontStyle.Bold);
 
             // PDFSharp Settings
-            XPoint xPoint = new XPoint
+            PdfSharp.Drawing.XPoint xPoint = new XPoint
             {
                 X = 0,
                 Y = 0
@@ -67,7 +103,7 @@ namespace GuardianAPI.BLL
 
             // Get the Result and Result Detail data to add to the PDF
             gfx.DrawString(result.OBR_2_1, TestResultFont, XBrushes.Black, xPoint.X + 115, xPoint.Y + 70);
-            gfx.DrawString(result.PID_5_2 + ", " + result.PID_5_1,font,XBrushes.Black, xPoint.X + 100, xPoint.Y + 85);
+            gfx.DrawString(result.PID_5_2 + ", " + result.PID_5_1, font, XBrushes.Black, xPoint.X + 100, xPoint.Y + 85);
             gfx.DrawString(result.OBR_3_1, font, XBrushes.Black, xPoint.X + 100, xPoint.Y + 100);
             gfx.DrawString(result.OBR_3_1, font, XBrushes.Black, xPoint.X + 100, xPoint.Y + 115);
             gfx.DrawString(result.PID_2_1, font, XBrushes.Black, xPoint.X + 100, xPoint.Y + 130);
@@ -98,41 +134,11 @@ namespace GuardianAPI.BLL
             var yTableVal = 600;
             var yTableVal2 = 175;
 
-            result.ResultDetails.ForEach(x =>  {
-                if (x.OBX_3_2 != null)
-                {
-                    // Test Name
-                    gfx.DrawString(x.OBX_3_2, font, XBrushes.Black, detailsXPoint.X, detailsXPoint.Y);
-                    // Result
-                    gfx.DrawString(x.OBX_8_1, font, XBrushes.Black, detailsXPoint.X + 195, detailsXPoint.Y);
-                    if (x.OBX_7_1 != null)
-                    {
-                        gfx.DrawString(x.OBX_7_1, font, XBrushes.Black, detailsXPoint.X + 200, detailsXPoint.Y);
-                    }
+            var xTableValLooped = 0;
+            var yTableValLooped = 0;
 
-                    // Draw the line above 
-                    gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2, xPoint.Y + yTableVal, xPoint.Y + yTableVal2);
 
-                    if (x.NTE_3_1 != null)
-                    {
-                        gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2 + 30, xPoint.Y + yTableVal, xPoint.Y + yTableVal2 + 30);
-                    }
-                    else
-                    {
-                        gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2, xPoint.Y + yTableVal, xPoint.Y + yTableVal2);
-                    }
-
-                    detailsXPoint.Y = detailsXPoint.Y + 15;
-                }
-            });
-
-            // End AM Testing
-                                    
-
-            // Header Image
-            XImage headerImage = XImage.FromFile(@"C:\temp\psi.jpg");
-            gfx.DrawImage(headerImage, xPoint.X + 10, xPoint.Y + 10, 300, 45);
-
+            
             // Title Result Header
             gfx.DrawString($"Test Result #", TestResultFont, XBrushes.Black, xPoint.X + 5, xPoint.Y + 70);
 
@@ -142,7 +148,6 @@ namespace GuardianAPI.BLL
             gfx.DrawString($"Chain of Custody #", font, XBrushes.Black, xPoint.X + 5, xPoint.Y + 115);
             gfx.DrawString($"ID / SSN", font, XBrushes.Black, xPoint.X + 5, xPoint.Y + 130);
 
-            // TODO: Values for the PDF HERE
 
             // Top Right Column Labels
             gfx.DrawString($"Collected", font, XBrushes.Black, xPoint.X + 260, xPoint.Y + 85);
@@ -151,74 +156,92 @@ namespace GuardianAPI.BLL
             gfx.DrawString($"Completed", font, XBrushes.Black, xPoint.X + 260, xPoint.Y + 130);
             gfx.DrawString($"Specimen Type", font, XBrushes.Black, xPoint.X + 260, xPoint.Y + 145);
 
-            // TODO: Insert Image here
-            XImage participantImage = XImage.FromFile(@"C:\temp\sample.jpg");
-            gfx.DrawImage(participantImage, xPoint.X + 450, xPoint.Y + 10);
 
 
-            //    Create Table
-            // 16 regular horizontal lines in regular table
-            //var xTableVal = 10;
-            //var xTableVal2 = 175;
-            //var yTableVal = 600;
-            //var yTableVal2 = 175;
-
-            // Create horizontal lines
-            //for (var i = 0; i <= 19; i++)
-            //{
-            //    if (i <= 15)
-            //    {
-            //        gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2, xPoint.Y + yTableVal, xPoint.Y + yTableVal2);
-            //        xTableVal2 = xTableVal2 + 15;
-            //        yTableVal2 = yTableVal2 + 15;
-            //    }
-
-            //    if (i == 16)
-            //    {
-            //        gfx.DrawLine(pen, xTableVal, xTableVal2 + 60, yTableVal, yTableVal2 + 60);
-            //    }
-            //}
-
-            //gfx.DrawLine(pen, xTableVal, xTableVal2 + 100, yTableVal, yTableVal2 + 100);
+            
+            MemoryStream ms = new MemoryStream(participantPhoto);       
+            XImage participantImage = XImage.FromStream(ms);
+                gfx.DrawImage(participantImage, xPoint.X + 460, xPoint.Y + 10, 175, 140);
 
 
-            //gfx.DrawLine(pen, xTableVal, xTableVal2 + 200, yTableVal, yTableVal2 + 200);
-            //gfx.DrawLine(pen, xTableVal, xTableVal2 + 150, yTableVal, yTableVal2 + 150);
+            // Run this if, if the Result Details Record contains a header note (NTE_3_1)
+            if (result.ResultDetails.FirstOrDefault().NTE_3_1 != null)
+            {
+                // Create the header record if the NTE_3_1 is not empty
+                gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2 + 60, xPoint.Y + yTableVal, xPoint.Y + yTableVal2 + 60);
+                gfx.DrawString(result.ResultDetails.FirstOrDefault().NTE_3_1, font, XBrushes.Black, detailsXPoint.X + 10, detailsXPoint.Y);
+
+                // Line that gets looped through
+                gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableValLooped + 75, xPoint.Y + yTableVal, xPoint.Y + yTableValLooped + 75);
 
 
-            //Far left Horizontal line
-            //gfx.DrawLine(pen, xPoint.X = 10, xPoint.X = 175, xPoint.Y = 10, xPoint.Y + 605);
+                // Loop through result details that have a header note
+                result.ResultDetails.ForEach(x =>
+                {
+                    // bottom line under Test /Result / Level / Cutoff
+                    gfx.DrawLine(pen, xPoint.X + xTableVal, xPoint.X + xTableVal2 + 15, xPoint.Y + yTableVal, xPoint.Y + yTableVal2 + 15);
 
-            //Far right Horizontal line
-            //gfx.DrawLine(pen, xPoint.X = 600, xPoint.X = 175, xPoint.Y = 600, xPoint.Y = 615);
+                    if (x.OBX_3_2 != null)
+                    {
+                        // Test Name
+                        gfx.DrawString(x.OBX_3_2, font, XBrushes.Black, detailsXPoint.X, detailsXPoint.Y + 45);
 
-            //Table Vertical Lines
-            gfx.DrawLine(pen, xPoint.X = 200, xPoint.X = 175, xPoint.Y = 200, xPoint.Y = 385);
-            gfx.DrawLine(pen, xPoint.X = 450, xPoint.X = 175, xPoint.Y = 450, xPoint.Y = 385);
-            gfx.DrawLine(pen, xPoint.X = 525, xPoint.X = 175, xPoint.Y = 525, xPoint.Y = 385);
+                        // Result
+                        var resultAsString = x.OBX_8_1 == "N" ? x.OBX_8_1 = "Negative" : x.OBX_8_1 == "A" ?
+                        x.OBX_8_1 = "Abnormal" : "No Result";
 
-
-
-
-
-
-
-
+                        gfx.DrawString(x.OBX_8_1, font, XBrushes.Black, detailsXPoint.X + 195, detailsXPoint.Y + 45);
 
 
+                        // Cutoff
+                        if (x.OBX_7_1 != null)
+                        {
+
+                            gfx.DrawString(x.OBX_7_1, font, XBrushes.Black, detailsXPoint.X + 520, detailsXPoint.Y + 45);
+                        }
+
+
+                        gfx.DrawLine(pen, xPoint.X + 10, xPoint.X + xTableValLooped + 250, xPoint.Y + 600, xPoint.Y + yTableValLooped + 250);
+
+
+                        xTableValLooped = xTableValLooped + 15;
+                        yTableValLooped = yTableValLooped + 15;
+                        detailsXPoint.Y = detailsXPoint.Y + 15;
+                    }
+                    else
+                    {
+                        // AM testing For Footer Note logic
+                        // Check the row for the Footer notes
+                        if (x.ItemIndex > 0 && x.LineType == "NTE")
+                        {
+                            var xFooterValLooped = 475;
+                            var yFooterValLooped = 475;
+                            var stringY = 65;
+
+
+                            gfx.DrawLine(pen, xPoint.X + 10, xPoint.X + xTableValLooped + 250, xPoint.Y + 600, xPoint.Y + yTableValLooped + 250);
+
+                            // Set NoteDrawLine Settings                           
+                            gfx.DrawString(x.NTE_3_1, font, XBrushes.Black, detailsXPoint.X, detailsXPoint.Y + stringY);
+                            gfx.DrawLine(pen, xPoint.X + 10, xPoint.X + xFooterValLooped, xPoint.Y + 600, xPoint.Y + yFooterValLooped);
+
+                            xFooterValLooped = xFooterValLooped + 15;
+                            yFooterValLooped = yFooterValLooped + 15;
+                            stringY = stringY + 15;
+
+                        }
+
+                        // END AM Testing
+                    }
+
+
+
+                });
 
 
 
 
-
-
-
-
-
-
-            //    gfx.DrawString($"DCS Invoice for some month", font, XBrushes.OrangeRed, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopCenter);
-            //    gfx.DrawString($"PROVIDER NAME: ", headerInfoFont, XBrushes.Black, xPoint.X + 30, xPoint.Y + 50);
-            //    gfx.DrawString($"PROVIDER ID / FEIN#: ", headerInfoFont, XBrushes.Black, xPoint.X + 14, xPoint.Y + 65);
+            }
 
             //TODO: PDF will be sent as a stream back to the requestor 
             document.Save($"C:\\Temp\\TestGuardianPDF_" + DateTime.Now.ToString("yyyy_MM") + ".pdf");
@@ -226,6 +249,7 @@ namespace GuardianAPI.BLL
 
 
         }
+
 
 
 
