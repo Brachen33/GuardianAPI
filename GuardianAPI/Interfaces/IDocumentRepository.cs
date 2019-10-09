@@ -11,6 +11,7 @@ namespace GuardianAPI.Interfaces
         IEnumerable<Document> GetDocuments();
         Document GetDocumentbyId(int id);
         byte[] GetLatestParticipantPhotoByParticipantId(int participantId);
+        byte[] GetPhotoByResult(int participantId);
 
 
     }

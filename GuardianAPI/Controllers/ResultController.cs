@@ -17,7 +17,7 @@ namespace GuardianAPI.Controllers
         private readonly IResultGenerator _resultGen;
         private readonly IPDFCreatorRepository _pdfCreator;
 
-        public ResultController(IResultRepository resultRepository, ILoggerManager logger,IResultGenerator resultGen,IPDFCreatorRepository pdfCreator)
+        public ResultController(IResultRepository resultRepository, ILoggerManager logger, IResultGenerator resultGen, IPDFCreatorRepository pdfCreator)
         {
             _resultRepository = resultRepository;
             _logger = logger;
@@ -25,14 +25,15 @@ namespace GuardianAPI.Controllers
             _pdfCreator = pdfCreator;
         }
 
+        [HttpGet]
         [Route("GetById/{id}")]
         public IActionResult GetById(int id)
         {
             return Ok(_resultRepository.GetResult(id));
         }
 
+        [HttpGet]
         [Route("GetGuardianDailyResults")]
-
         public IActionResult GetGuardianDailyResults()
         {
             return Ok(_resultGen.ResultResponse());
@@ -42,8 +43,8 @@ namespace GuardianAPI.Controllers
         [Route("getpdf/{resultId}")]
         public IActionResult GuardianResultPDF(int resultId)
         {
-            _pdfCreator.GetPDF(PDFType.GuardianExportPDF, resultId);        
-            
+            _pdfCreator.GetPDF(PDFType.GuardianExportPDF, resultId);
+
             return Ok("Export Complete");
         }
     }

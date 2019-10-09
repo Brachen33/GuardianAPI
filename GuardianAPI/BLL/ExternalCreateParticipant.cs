@@ -25,25 +25,30 @@ namespace GuardianAPI.BLL
         public User CreateParticipant(GuardianCreateDTO dto)
         {
             // TODO: Check if the user exists
-            // AM Testing           
-            var user = _context.Users.Include(x => x.Participants).FirstOrDefault(x => x.Id == dto.User.Id);
+
+            var user = _context.Users.Include(x => x.Participants).FirstOrDefault(x => x.Id == dto.User.Id);           
 
             // Map the DTO to the User Object
             user = dto.User.Adapt<User>();
 
             // Create a new user if the user does not exist
-            if (user == null)
+            if (user.Id == 0)
             {
                 // Set Default properties for the User Record
                 user.Active = 1;
                 user.DateUpdated = DateTime.Now;
                 user.DateCreated = DateTime.Now;
 
+                user.CreatedBy = dto.CreatedBy;
+                user.UpdatedBy = dto.UpdatedBy;
+
                 // User Contact Record
                 user.Contact.RecordType = "USR";
                 user.Contact.DateCreated = DateTime.Now;
                 user.Contact.DateUpdated = DateTime.Now;
-                _context.Users.Add(user);
+
+                user.Contact.CreatedBy = dto.CreatedBy;
+                user.Contact.UpdatedBy = dto.UpdatedBy;
             }
 
 
@@ -56,14 +61,27 @@ namespace GuardianAPI.BLL
                 {
                     x.Active = 1;
                     x.DateUpdated = DateTime.Now;
+
+                    x.CreatedBy = dto.CreatedBy;
+                    x.UpdatedBy = dto.UpdatedBy;
                 }
                 else
                 {
                     x.Active = 1;
                     x.DateCreated = DateTime.Now;
                     x.DateUpdated = DateTime.Now;
+
+                    x.CreatedBy = dto.CreatedBy;
+                    x.UpdatedBy = dto.UpdatedBy;
                 }
                 // TODO: Figure out Contact
+                x.Contact.DateCreated = DateTime.Now;
+                x.Contact.DateUpdated = DateTime.Now;
+                x.Contact.RecordType = "PID";
+                x.Contact.RecordID = x.Id;
+
+                x.Contact.CreatedBy = dto.CreatedBy;
+                x.Contact.UpdatedBy = dto.UpdatedBy;
 
                 // Add Participant Panel 1 : X
                 x.ParticipantPanels.ForEach(pp =>
@@ -74,12 +92,19 @@ namespace GuardianAPI.BLL
                         pp.DateUpdated = DateTime.Now;
                         pp.ParticipantId = x.Id;
                         pp.UserId = user.Id;
+
+                        pp.CreatedBy = dto.CreatedBy;
+                        pp.UpdatedBy = dto.UpdatedBy;
+
                     }
                     else
                     {
                         pp.Active = 1;
                         // pp.DateCreated = DateTime.Now;
                         pp.DateUpdated = DateTime.Now;
+
+                        pp.CreatedBy = dto.CreatedBy;
+                        pp.UpdatedBy = dto.UpdatedBy;
 
                         // TODO: For testing only
                         pp.StartDate = DateTime.Now;
@@ -91,10 +116,17 @@ namespace GuardianAPI.BLL
                 if (x.ParticipantSchedule != null)
                 {
                     x.ParticipantSchedule.Active = 1;
+                    x.ParticipantSchedule.DateCreated = DateTime.Now;
+
+                    x.ParticipantSchedule.CreatedBy = dto.CreatedBy;
+                    x.ParticipantSchedule.UpdatedBy = dto.UpdatedBy;
                 }
                 else
                 {
                     x.ParticipantSchedule.DateCreated = DateTime.Now;
+
+                    x.ParticipantSchedule.CreatedBy = dto.CreatedBy;
+                    x.ParticipantSchedule.UpdatedBy = dto.UpdatedBy;
                 }
 
 
@@ -106,11 +138,13 @@ namespace GuardianAPI.BLL
                     r.Active = 1;
                     r.DateCreated = DateTime.Now;
                     r.DateUpdated = DateTime.Now;
+
+                    r.CreatedBy = dto.CreatedBy;
+                    r.UpdatedBy = dto.UpdatedBy;
                 });
 
                 // TODO: set the if condition for if it is a manual test
-                if (x.TestSchedules.Count > 0)
-                {
+         
                     // Set the Test Schedule if it is a manual test
                     x.TestSchedules.ForEach(ts =>
                     {
@@ -120,6 +154,9 @@ namespace GuardianAPI.BLL
                         ts.CompanyId = x.CompanyID;
                         ts.RegionId = x.RegionID;
                         ts.ParticipantId = x.Id;
+
+                        ts.CreatedBy = dto.CreatedBy;
+                        ts.UpdatedBy = dto.UpdatedBy;
 
                         // Set the Tests Panels if it is a manual test
                         ts.TestPanels.ForEach(tp =>
@@ -134,11 +171,30 @@ namespace GuardianAPI.BLL
                             tp.PanelID = panel.Id;
                             tp.LabCode = panel.LabCode;
                             tp.PanelDescription = panel.Description;
-                        });
+                        });                       
                     });
-                }
+
+                x.PaternityRelations.ForEach(pr =>
+                {
+                    pr.Active = 1;
+                    pr.DateCreated = DateTime.Now;
+                    pr.DateUpdated = DateTime.Now;
+
+                    pr.CreatedBy = dto.CreatedBy;
+                    pr.UpdatedBy = dto.UpdatedBy;
+                });                
             });
-            _context.SaveChanges();
+
+
+            // Save original Context
+            _context.Users.Add(user);
+            var savedContext = _context.SaveChanges();
+          
+            // Update Context for CreatedBy and UpdatedBy
+
+
+            
+
             return user;
         }
     }

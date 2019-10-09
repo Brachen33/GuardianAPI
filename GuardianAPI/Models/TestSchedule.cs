@@ -25,10 +25,12 @@ namespace GuardianAPI.Models
 
         public Participant Participant { get; set; }
         public List<TestPanel> TestPanels { get; set; }
+        public PaternityRelation PaternityRelation { get; set; }
+       
 
         public TestSchedule()
         {
-            TestPanels = new List<TestPanel>();
+            TestPanels = new List<TestPanel>();          
         }
 
     }

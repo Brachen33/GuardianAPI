@@ -15,14 +15,7 @@ namespace GuardianAPI.DTOs.Guardian
         public DateTime TestDate { get; set; }
         public TimeSpan TestTime { get; set; }
         public int ScheduleType { get; set; }
-        public int Active { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime DateCreated { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime DateUpdated { get; set; }
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
-
+     
         public List<GuardianTestPanelDTO> TestPanels { get; set; }
 
         public GuardianTestScheduleDTO()

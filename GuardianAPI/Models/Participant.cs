@@ -35,6 +35,7 @@ namespace GuardianAPI.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public int Active { get; set; }
+        
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
         public int RegionID { get; set; }
@@ -46,6 +47,7 @@ namespace GuardianAPI.Models
         public List<Requisition> Requisitions { get; set; }
         public ParticipantSchedule ParticipantSchedule { get; set; }
         public List<TestSchedule> TestSchedules { get; set; }
+        public List<PaternityRelation> PaternityRelations { get; set; }
 
       
         public Participant()
@@ -54,6 +56,7 @@ namespace GuardianAPI.Models
             ParticipantPanels = new List<ParticipantPanel>();
             Requisitions = new List<Requisition>();
             ParticipantSchedule = new ParticipantSchedule();
+            PaternityRelations = new List<PaternityRelation>();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace GuardianAPI.Models
         public string OBX_3_2 { get; set; }
         public string OBX_7_1 { get; set; }
         public string OBX_8_1 { get; set; }
+        public int? NTE_1_1 { get; set; }
         public string NTE_3_1 { get; set; }
 
     }

@@ -19,12 +19,5 @@ namespace GuardianAPI.DTOs.Guardian
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-        public int Active { get; set; }       
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
-
-
-
-
     }
 }

@@ -20,17 +20,12 @@ namespace GuardianAPI.Controllers
             _documentRepository = documentRepository;
         }
 
-        [Route("GetLatestPhoto/{id}")]
-        public IActionResult GetParticipantLatestPhotoByParticipantId(int id)
-        {
-            var img = _documentRepository.GetLatestParticipantPhotoByParticipantId(id);
-
-
-
-            return RedirectToPage("/Views/SeePhoto.cshtml");
-
-             
-        }
+        //[Route("GetLatestPhoto/{id}")]
+        //public IActionResult GetParticipantLatestPhotoByParticipantId(int id)
+        //{
+        //    var img = _documentRepository.GetLatestParticipantPhotoByParticipantId(id);
+        //    return RedirectToPage("/Views/SeePhoto.cshtml");             
+        //}
 
     }
 }

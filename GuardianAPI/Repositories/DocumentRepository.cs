@@ -57,5 +57,14 @@ namespace GuardianAPI.Repositories
             return imgByteArr;
             // return base64Bytes;
         }
+
+        public byte[] GetPhotoByResult(int participantId)
+        {
+            //var document = _context.Documents.Include(x => x.DocumentData)
+            //     .Where( x= > x.)
+
+            return null;
+
+        }
     }
 }

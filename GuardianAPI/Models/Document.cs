@@ -16,6 +16,7 @@ namespace GuardianAPI.Models
         public string Name { get; set; }
         public string FileName { get; set; }
         public string DocType { get; set; }
+        public string FileLoaderType { get; set; }
 
         public DocumentData DocumentData { get; set; }
 

@@ -30,17 +30,17 @@ namespace GuardianAPI.DTOs
         public DateTime EndDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DOB { get; set; }
-
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
+       
         public int RegionID { get; set; }
 
-        // One Participant to many results
+       
         public GuardianContactDTO Contact { get; set; }
         public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
         public IEnumerable<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
         public IEnumerable<GuardianRequisitionDTO> Requisitions { get; set; }
-        public IEnumerable<GuardianTestScheduleDTO> TestSchedules { get; set; }        
+        public IEnumerable<GuardianTestScheduleDTO> TestSchedules { get; set; }  
+        public IEnumerable<GuardianPaternityRelationDTO> PaternityRelations { get; set; }
+       
 
         public GuardianParticipantCreateDTO()
         {
@@ -49,7 +49,7 @@ namespace GuardianAPI.DTOs
             ParticipantPanels = new List<GuardianParticipantPanelDTO>();
             Requisitions = new List<GuardianRequisitionDTO>();
             TestSchedules = new List<GuardianTestScheduleDTO>();
-
+            PaternityRelations = new List<GuardianPaternityRelationDTO>();
         }
     }
 }

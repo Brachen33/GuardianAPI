@@ -94,6 +94,7 @@ namespace GuardianAPI
             services.AddScoped<ITestScheduleRepository, TestScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IPaternityRelationRepository, PaternityRelationRepository>();
 
             // PSI Manager implementations
             services.AddScoped<IClientRepository, ClientRepository>();
@@ -101,6 +102,7 @@ namespace GuardianAPI
             // Register NLogger for DI
             services.AddScoped<ILoggerManager, LoggerManager>();
 
+            services.AddScoped<IExternalCreateParticipant, ExternalCreateParticipant>();
             services.AddScoped<IResultGenerator, ResultGenerator>();
             services.AddScoped<IPDFCreatorRepository, PDFCreator>();
 

@@ -48,9 +48,9 @@ namespace GuardianAPI.Repositories
                 user.DateCreated = DateTime.Now;
 
                 // User Contact Record
-                user.Contact.RecordType = "USR";
-                user.Contact.DateCreated = DateTime.Now;
-                user.Contact.DateUpdated = DateTime.Now;
+                //user.Contact.RecordType = "USR";
+                //user.Contact.DateCreated = DateTime.Now;
+                //user.Contact.DateUpdated = DateTime.Now;
                 _context.Users.Add(user);
             }
 

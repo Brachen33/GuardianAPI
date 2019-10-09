@@ -14,7 +14,6 @@ namespace GuardianAPI.DTOs.Guardian
         public string ScheduleModel { get; set; }
         public string PanelDescription { get; set; }
         public int CompanyID { get; set; }
-        public int RegionID { get; set; }
-        public int OrderedBy { get; set; }
+        public int RegionID { get; set; }      
     }
 }

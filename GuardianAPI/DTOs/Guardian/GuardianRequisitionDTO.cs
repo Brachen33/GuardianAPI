@@ -41,11 +41,6 @@ namespace GuardianAPI.DTOs.Guardian
         public string CaseManagerLName { get; set; }
         public string Title { get; set; }
         public int SubSpecimen { get; set; }
-        public int Observe { get; set; }
-        public int Active { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
+        public int Observe { get; set; }     
     }
 }

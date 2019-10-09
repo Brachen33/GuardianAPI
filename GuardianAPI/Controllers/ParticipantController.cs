@@ -19,12 +19,14 @@ namespace GuardianAPI.Controllers
     [ApiController]
     public class ParticipantController : Controller
     {
+        private readonly IExternalCreateParticipant _externalCreate;
         private readonly IParticipantRepository _participantRepository;
         private readonly ILoggerManager _logger;
 
-        public ParticipantController(IParticipantRepository participantRepository,ILoggerManager logger)
+        public ParticipantController(IParticipantRepository participantRepository,ILoggerManager logger, IExternalCreateParticipant externalCreate)
         {
             _participantRepository = participantRepository;
+            _externalCreate = externalCreate;
             _logger = logger;
         }
 
@@ -102,8 +104,9 @@ namespace GuardianAPI.Controllers
             }
             else
             {
-                var createdParticipant = _participantRepository.CreateParticipantFromGuardian(dto);
-                return Ok("Success!");
+                var userAndParticipants = _externalCreate.CreateParticipant(dto);
+               // var userAndParticipants = _participantRepository.CreateParticipantFromGuardian(dto);
+                return Ok(userAndParticipants);
             }
         }
     }

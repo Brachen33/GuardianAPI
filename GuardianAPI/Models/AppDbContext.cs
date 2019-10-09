@@ -28,6 +28,7 @@ namespace GuardianAPI.Models
         public DbSet<Participant> Participants { get; set; }
         public DbSet<ParticipantPanel> ParticipantPanels { get; set; }
         public DbSet<ParticipantSchedule> ParticipantSchedules { get; set; }
+        public DbSet<PaternityRelation> PaternityRelations { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Requisition> Requisitions { get; set; }
         public DbSet<Result> Results { get; set; }
@@ -64,11 +65,16 @@ namespace GuardianAPI.Models
                 .WithOne(x => x.User)
                 .HasForeignKey<Contact>(x => x.RecordID);
 
-            // Participant Joins
+         //   Participant Joins
             modelBuilder.Entity<Participant>()
                 .HasOne(x => x.Contact)
                 .WithOne(x => x.Participant)
                 .HasForeignKey<Contact>(x => x.RecordID);
+
+             modelBuilder.Entity<Participant>()
+                 .HasMany(x => x.PaternityRelations)
+                  .WithOne(x => x.Participant)
+                  .HasForeignKey(x => x.ParticipantId);
 
 
             modelBuilder.Entity<TestSchedule>()
@@ -76,10 +82,19 @@ namespace GuardianAPI.Models
                .WithOne(t => t.TestSchedule)
                .HasForeignKey(p => p.TestID);
 
+          
+
+
+
+          
+
+          
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TestPanel>().HasKey(
                 t => new { t.TestID }
                 );
+
+                  
 
             modelBuilder.Entity<Result>()
                 .HasOne(p => p.Panel)
@@ -90,10 +105,7 @@ namespace GuardianAPI.Models
             modelBuilder.Entity<Document>()
                 .HasOne(x => x.DocumentData)
                 .WithOne(x => x.Document)
-                .HasForeignKey<DocumentData>(x => x.MetaId);
-
-
-            
+                .HasForeignKey<DocumentData>(x => x.MetaId);            
         }
     }
 }

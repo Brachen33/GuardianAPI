@@ -21,10 +21,8 @@ namespace GuardianAPI.DTOs.Guardian
         public int Wednesday { get; set; }
         public int Thursday { get; set; }
         public int Friday { get; set; }
-        public int Saturday { get; set; }
-        public int Active { get; set; }
-        public DateTime? DateCreated { get; set; }
-        public int CreatedBy { get; set; }
-        public int UpdatedBy { get; set; }
+        public int Saturday { get; set; }     
+       
+    
     }
 }

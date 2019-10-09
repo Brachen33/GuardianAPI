@@ -12,8 +12,7 @@ namespace GuardianAPI.Models
         public int Id { get; set; }
         public int MetaId { get; set; }
         public string FileType { get; set; }     
-        public byte[] FileData { get; set; }
-        public string FileLoaderType { get; set; }
+        public byte[] FileData { get; set; }      
 
         public Document Document { get; set; }
     }
