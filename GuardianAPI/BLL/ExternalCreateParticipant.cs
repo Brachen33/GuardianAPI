@@ -189,10 +189,26 @@ namespace GuardianAPI.BLL
             // Save original Context
             _context.Users.Add(user);
             var savedContext = _context.SaveChanges();
-          
-            // Update Context for CreatedBy and UpdatedBy
+
+            // Update the Paternity Record with the TestId(td_tests_schedule)        
+            var doesPaternityExist = user.Participants.Any(x => x.PaternityRelations.Any(y => y.Id > 0));
+
+            if (user.Participants.Any(x => x.PaternityRelations.Any(p => p.Id > 0)))
+            {
+                user.Participants.ForEach(x => x.PaternityRelations.ForEach(pr =>
+                {
+                     user.Participants.ForEach(t => t.TestSchedules.ForEach(ts =>
+                    {
+                        pr.TestId = ts.Id;
+                        _context.PaternityRelations.Update(pr);
+                    }));
+                }));
+            }
+
+            _context.SaveChanges();
 
 
+            var part = user.Participants;
             
 
             return user;

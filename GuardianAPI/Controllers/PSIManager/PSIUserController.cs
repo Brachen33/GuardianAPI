@@ -37,7 +37,7 @@ namespace GuardianAPI.Controllers.PSIManager
         }
 
 
-        ///
+        
         [HttpGet]
         [Route("getall")]
         public IActionResult GetAll()
