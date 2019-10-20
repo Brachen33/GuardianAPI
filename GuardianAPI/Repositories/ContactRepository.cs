@@ -9,6 +9,14 @@ namespace GuardianAPI.Repositories
 {
     public class ContactRepository : IContactRepository
     {
+        private readonly AppDbContext _context;
+
+        public ContactRepository(AppDbContext context)
+        {
+            _context = context;
+
+        }
+
         public Contact Add(Contact contact)
         {
             throw new NotImplementedException();
@@ -26,7 +34,11 @@ namespace GuardianAPI.Repositories
 
         public Contact UpdateContact(Contact contactChanges)
         {
-            throw new NotImplementedException();
+            var contact = _context.Contacts.Attach(contactChanges);
+            contact.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return contactChanges;
         }
     }
 }

@@ -8,7 +8,8 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianTestScheduleDTO
     {       
-        public int CompanyId { get; set; }
+       
+        public int CompanyId { get; set; }       
         public int RegionId { get; set; }
         public int ParticipantId { get; set; }
         public int SiteID { get; set; }

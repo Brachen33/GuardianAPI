@@ -48,7 +48,6 @@ namespace GuardianAPI.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,18 +57,18 @@ namespace GuardianAPI.Models
             modelBuilder.Entity<User>()
                 .HasMany(x => x.Participants)
                 .WithOne(x => x.User)
-                .HasForeignKey(x => x.CaseManagerID);
+                .HasForeignKey(x => x.CaseManagerId);
 
-            modelBuilder.Entity<User>()
-                .HasOne(x => x.Contact)
-                .WithOne(x => x.User)
-                .HasForeignKey<Contact>(x => x.RecordID);
+        //    modelBuilder.Entity<User>()
+        //        .HasOne(x => x.Contact)
+        //        .WithOne(x => x.User)
+        //        .HasForeignKey<Contact>(x => x.RecordID);
 
          //   Participant Joins
-            modelBuilder.Entity<Participant>()
-                .HasOne(x => x.Contact)
-                .WithOne(x => x.Participant)
-                .HasForeignKey<Contact>(x => x.RecordID);
+            //modelBuilder.Entity<Participant>()
+            //    .HasOne(x => x.Contact)
+            //    .WithOne(x => x.Participant)
+            //    .HasForeignKey<Contact>(x => x.RecordID);
 
              modelBuilder.Entity<Participant>()
                  .HasMany(x => x.PaternityRelations)

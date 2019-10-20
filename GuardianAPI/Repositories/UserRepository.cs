@@ -39,7 +39,12 @@ namespace GuardianAPI.Repositories
 
         public User Update(User userChanges)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.Attach(userChanges);
+            user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return userChanges;
         }
     }
 }
+
