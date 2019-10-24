@@ -19,14 +19,11 @@ namespace GuardianAPI.Repositories
 
         public User Add(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user;            
         }
-
-        public User Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public IEnumerable<User> GetAllUsers()
         {
             return _context.Users;
@@ -34,7 +31,7 @@ namespace GuardianAPI.Repositories
 
         public User GetUser(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Users.Find(Id);
         }
 
         public User Update(User userChanges)

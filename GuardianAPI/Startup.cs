@@ -75,6 +75,7 @@ namespace GuardianAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
 
+
             // Register Interfaces with their implementations
             services.AddScoped<ICollectionRepository, CollectionRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
@@ -106,6 +107,8 @@ namespace GuardianAPI
             services.AddScoped<IResultGenerator, ResultGenerator>();
             services.AddScoped<IPDFCreatorRepository, PDFCreator>();
 
+          
+
             // Test Services(for DI)
           //  services.AddScoped<IParticipantExtended, ParticipantExtended>();
           //  services.AddScoped<ITestLogic, TestLogic>();
@@ -128,9 +131,10 @@ namespace GuardianAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });                   
-
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
+            });
+            
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();

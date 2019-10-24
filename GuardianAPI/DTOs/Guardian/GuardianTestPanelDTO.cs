@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianTestPanelDTO
-    {      
-        public int PanelID { get; set; }
+    {     
+        [Required]
+        public int PanelID { get; set; }        
         public string LabCode { get; set; }
         public string PanelCode { get; set; }
         public int ScheduleType { get; set; }

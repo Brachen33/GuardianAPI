@@ -46,6 +46,7 @@ namespace GuardianAPI.DTOs
         public string SiteCode { get; set; }
         [StringLength(4, ErrorMessage = "An App Pin must be 4 characters")]
         public string AppPin { get; set; }
+        public DateTime DateUpdated { get; set; }
       
 
         public GuardianContactDTO Contact { get; set; }

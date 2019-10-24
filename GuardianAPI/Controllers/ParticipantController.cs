@@ -31,12 +31,12 @@ namespace GuardianAPI.Controllers
         }
 
    
-        [HttpGet("index")]
-        public IActionResult Index()
-        {
-            var model = _participantRepository.GetAllParticipants();          
-            return Ok(model);
-        }
+        //[HttpGet("index")]
+        //public IActionResult Index()
+        //{
+        //    var model = _participantRepository.GetAllParticipants();          
+        //    return Ok(model);
+        //}
 
         [HttpGet("Details/{id}")]
         public IActionResult Details(int? id)
@@ -48,22 +48,22 @@ namespace GuardianAPI.Controllers
             return Ok(participantDTO);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return Ok();
-        }
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return Ok();
+        //}
 
-        [HttpPost]
-        public IActionResult Create(Participant participant)
-        {
-            if (ModelState.IsValid)
-            {
-                Participant newParticipant = _participantRepository.Add(participant);
-                return RedirectToAction("details", new { id = newParticipant.Id });
-            }
-            return View();
-        }
+        //[HttpPost]
+        //public IActionResult Create(Participant participant)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        Participant newParticipant = _participantRepository.Add(participant);
+        //        return RedirectToAction("details", new { id = newParticipant.Id });
+        //    }
+        //    return View();
+        //}
 
                
 
@@ -104,7 +104,7 @@ namespace GuardianAPI.Controllers
             }
             else
             {
-                var userAndParticipants = _externalCreate.CreateParticipant(dto);
+                var userAndParticipants = _externalCreate.GuardianProcess(dto);
                // var userAndParticipants = _participantRepository.CreateParticipantFromGuardian(dto);
                 return Ok(userAndParticipants);
             }

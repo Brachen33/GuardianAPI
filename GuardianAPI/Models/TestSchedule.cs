@@ -24,8 +24,7 @@ namespace GuardianAPI.Models
         public int UpdatedBy { get; set; }
 
         public Participant Participant { get; set; }
-        public List<TestPanel> TestPanels { get; set; }
-        public PaternityRelation PaternityRelation { get; set; }
+        public List<TestPanel> TestPanels { get; set; }       
        
 
         public TestSchedule()

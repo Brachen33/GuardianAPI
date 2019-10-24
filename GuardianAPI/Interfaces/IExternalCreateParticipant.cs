@@ -9,6 +9,6 @@ namespace GuardianAPI.Interfaces
 {
     public interface IExternalCreateParticipant
     {
-       User CreateParticipant(GuardianCreateDTO dto);
+       string GuardianProcess(GuardianCreateDTO dto);
     }
 }

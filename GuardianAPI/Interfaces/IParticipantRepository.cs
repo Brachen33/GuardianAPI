@@ -15,6 +15,7 @@ namespace GuardianAPI.Interfaces
         Participant Add(Participant participant);
         Participant Update(Participant participantChanges);
         Participant Delete(int id);
+        bool DoesParticipantExist(string issuedId);
 
         // Additional Methods for retrieving a Participant
         Participant GetParticipantByIsssuedId(string issuedId);
@@ -24,7 +25,7 @@ namespace GuardianAPI.Interfaces
         // Retrieves Results and Result Details
        // Participant GetParticipantWithResults(int id);
         //
-        User CreateParticipantFromGuardian(GuardianCreateDTO participantDTO);
+      
 
     }
 }

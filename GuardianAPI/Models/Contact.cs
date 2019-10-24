@@ -28,6 +28,6 @@ namespace GuardianAPI.Models
 
         // Nav Properties
         public User User { get; set; }
-        public Participant Participant { get; set; }
+     //   public Participant Participant { get; set; }
     }
 }

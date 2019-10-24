@@ -35,7 +35,7 @@ namespace GuardianAPI.DTOs
         public int RegionID { get; set; }
 
        
-     //   public GuardianContactDTO Contact { get; set; }
+        public GuardianContactDTO Contact { get; set; }
         public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
         public IEnumerable<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
         public IEnumerable<GuardianRequisitionDTO> Requisitions { get; set; }
@@ -45,7 +45,7 @@ namespace GuardianAPI.DTOs
 
         public GuardianParticipantCreateDTO()
         {
-     //       Contact = new GuardianContactDTO();
+            Contact = new GuardianContactDTO();
             ParticipantSchedule = new GuardianParticipantScheduleDTO();
             ParticipantPanels = new List<GuardianParticipantPanelDTO>();
             Requisitions = new List<GuardianRequisitionDTO>();

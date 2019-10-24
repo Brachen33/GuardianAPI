@@ -21,11 +21,12 @@ namespace GuardianAPI.Models
         public int OrderedBy { get; set; }
 
         public TestSchedule TestSchedule { get; set; }
-      //  public Panel Panel { get; set; }
+      
+    
 
         public TestPanel()
         {
-        //    Panel = new Panel();
+           
         }
     }
 }

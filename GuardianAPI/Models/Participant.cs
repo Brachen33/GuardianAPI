@@ -43,20 +43,21 @@ namespace GuardianAPI.Models
         // Navigation Properties       
         public User User { get; set; }
       //  public Contact Contact { get; set; }
-        public List<ParticipantPanel> ParticipantPanels { get; set; }
-        public List<Requisition> Requisitions { get; set; }
-        public ParticipantSchedule ParticipantSchedule { get; set; }
-        public List<TestSchedule> TestSchedules { get; set; }
-        public List<PaternityRelation> PaternityRelations { get; set; }
+     //   public List<ParticipantPanel> ParticipantPanels { get; set; }
+     //   public List<Requisition> Requisitions { get; set; }
+     //   public ParticipantSchedule ParticipantSchedule { get; set; }
+     //   public List<TestSchedule> TestSchedules { get; set; }
+     //   public List<PaternityRelation> PaternityRelations { get; set; }
 
       
         public Participant()
         {           
-      //      Contact = new Contact();
-            ParticipantPanels = new List<ParticipantPanel>();
-            Requisitions = new List<Requisition>();
-            ParticipantSchedule = new ParticipantSchedule();
-            PaternityRelations = new List<PaternityRelation>();
+        //    Contact = new Contact();
+       //     ParticipantPanels = new List<ParticipantPanel>();
+       //     Requisitions = new List<Requisition>();
+       //     ParticipantSchedule = new ParticipantSchedule();
+       //     TestSchedules = new List<TestSchedule>();
+       //     PaternityRelations = new List<PaternityRelation>();
         }
     }
 }

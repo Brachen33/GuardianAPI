@@ -8,11 +8,13 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianRequisitionDTO
     { 
-        public int CompanyId { get; set; }       
+        public int CompanyId { get; set; }
+        [Range(0,500,ErrorMessage ="Region Id is a required field")]
         public int RegionId { get; set; }
-      //  public DateTime ReqDate { get; set; } 
-      //  public TimeSpan ReqTime { get; set; } 
+       // public DateTime ReqDate { get; set; } 
+       // public TimeSpan ReqTime { get; set; } 
       //  public int ParticipantId { get; set; }
+        
         public string ParticipantIssuedId { get; set; }
         public string ParticipantFName { get; set; }
         public string ParticipantLName { get; set; }

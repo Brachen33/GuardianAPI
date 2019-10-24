@@ -32,6 +32,5 @@ namespace GuardianAPI.Models
         public DateTime DateUpdated { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
-
     }
 }

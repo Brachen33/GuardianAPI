@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GuardianAPI</name>
+    </assembly>
+    <members>
+        <member name="M:GuardianAPI.BLL.PDFCreator.CreateGuardianPDFResult(GuardianAPI.Models.Result,System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:GuardianAPI.BLL.ResultGenerator.ResultResponse">
+            <summary>
+            Runs after midnight and sends the previous days Result IDs and participant data
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GuardianAPI.Controllers.ParticipantController.GuardianCreateParticipant(GuardianAPI.DTOs.Guardian.GuardianCreateDTO)">
+            <summary>
+            
+            </summary>
+            <param name="dto"></param>
+            <returns>The DTO after it has been successfully saved</returns>
+        </member>
+    </members>
+</doc>

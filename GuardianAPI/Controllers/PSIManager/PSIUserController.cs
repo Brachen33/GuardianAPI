@@ -24,6 +24,9 @@ namespace GuardianAPI.Controllers.PSIManager
         [Route("getbyid/{id}")]
         public IActionResult GetById(int id)
         {
+            _logger.LogInfo("are we here?");
+
+
             try
             {
                 var psiUser = _repository.GetUser(id);

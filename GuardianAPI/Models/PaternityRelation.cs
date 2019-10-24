@@ -11,8 +11,7 @@ namespace GuardianAPI.Models
     {
         public int Id { get; set; }
         public string PaternityCaseId { get; set; }
-        public int ParticipantId { get; set; }       
-        [ForeignKey("TestSchedule")]
+        public int ParticipantId { get; set; }  
         public int TestId { get; set; }
         public string ADCCode { get; set; }
         public string Relation { get; set; }
@@ -24,7 +23,7 @@ namespace GuardianAPI.Models
         public int UpdatedBy { get; set; }
 
         public Participant Participant { get; set; }       
-        public TestSchedule TestSchedule { get; set; }
+       
        
      
 
