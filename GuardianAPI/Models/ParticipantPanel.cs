@@ -29,6 +29,17 @@ namespace GuardianAPI.Models
         public int UpdatedBy { get; set; }      
 
         public Participant Participant { get; set; }
+
+
+        public ParticipantPanel()
+        { }
+
+        public ParticipantPanel(List<ParticipantPanel> pPanels)
+        {          
+            
+            
+        }
+       
        
     }
 }

@@ -37,10 +37,10 @@ namespace GuardianAPI.DTOs
        
         public GuardianContactDTO Contact { get; set; }
         public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
-        public IEnumerable<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
-        public IEnumerable<GuardianRequisitionDTO> Requisitions { get; set; }
-        public IEnumerable<GuardianTestScheduleDTO> TestSchedules { get; set; }  
-        public IEnumerable<GuardianPaternityRelationDTO> PaternityRelations { get; set; }
+        public List<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
+        public List<GuardianRequisitionDTO> Requisitions { get; set; }
+        public List<GuardianTestScheduleDTO> TestSchedules { get; set; }  
+        public List<GuardianPaternityRelationDTO> PaternityRelations { get; set; }
        
 
         public GuardianParticipantCreateDTO()

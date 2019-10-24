@@ -65,12 +65,12 @@ namespace GuardianAPI.Models
                 .HasForeignKey<Contact>(x => x.RecordID);
 
             //   Participant Joins
-            //modelBuilder.Entity<Participant>()
-            //    .HasOne(x => x.Contact)
-            //    .WithOne(x => x.Participant)
-            //    .HasForeignKey<Contact>(x => x.RecordID);
+            modelBuilder.Entity<Participant>()
+                .HasOne(x => x.Contact)
+                .WithOne(x => x.Participant)
+                .HasForeignKey<Contact>(x => x.RecordID);
 
-           
+
             modelBuilder.Entity<TestSchedule>()
                .HasMany(p => p.TestPanels)
                .WithOne(t => t.TestSchedule)

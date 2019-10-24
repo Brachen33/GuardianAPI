@@ -13,5 +13,6 @@ namespace GuardianAPI.Interfaces
         ParticipantPanel Add(ParticipantPanel participantPanel);
         ParticipantPanel Update(ParticipantPanel participantPanelChanges);
         ParticipantPanel Delete(int id);
+      
     }
 }

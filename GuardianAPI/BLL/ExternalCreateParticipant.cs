@@ -23,11 +23,12 @@ namespace GuardianAPI.BLL
         private readonly IParticipantRepository _participantRepository;
         private readonly IPanelRepository _panel;
         private readonly IConfiguration _config;
+        private readonly IParticipantPanelRepository _participantPanelRepository;
 
 
 
         public ExternalCreateParticipant(AppDbContext context, ILoggerManager logger, IUserRepository user
-            , IParticipantRepository participantRepository, IPanelRepository panelRepository, IConfiguration config)
+            , IParticipantRepository participantRepository, IPanelRepository panelRepository, IConfiguration config,IParticipantPanelRepository participantPanelRepository)
         {
             _context = context;
             _user = user;
@@ -35,6 +36,7 @@ namespace GuardianAPI.BLL
             _panel = panelRepository;
             _logger = logger;
             _config = config;
+            _participantPanelRepository = participantPanelRepository;
         }
 
         public string GuardianProcess(GuardianCreateDTO dto)
@@ -50,7 +52,10 @@ namespace GuardianAPI.BLL
             }
             // End AM Dapper Testing
 
-        
+            // Initialize Lists
+            List<ParticipantPanel> participantPanels = new List<ParticipantPanel>();
+           
+
             //    var testModel = dto.User.Adapt<User>();           
 
             // New Process
@@ -66,18 +71,14 @@ namespace GuardianAPI.BLL
             if (existingUser != null)
             {
                 //Update User(Parent)
-
-                // Set Defaults for the existing User
-                dto.User.DateUpdated = DateTime.Now;
-
                 _context.Entry(existingUser).CurrentValues.SetValues(dto.User);
 
-                // Delete the Participants
-                foreach (var existingParticipant in existingUser.Participants.ToList())
-                {
-                    if (!dto.User.Participants.Any(c => c.Id == existingParticipant.Id))
-                        _context.Participants.Remove(existingParticipant);
-                }
+                // Delete the Participants (Remove from tracking)
+                //foreach (var existingParticipant in existingUser.Participants.ToList())
+                //{
+                //    if (!dto.User.Participants.Any(c => c.Id == existingParticipant.Id))
+                //        _context.Participants.Remove(existingParticipant);
+                //}
 
                 // Update and Insert Participants
                 foreach (var participant in dto.User.Participants)
@@ -87,20 +88,71 @@ namespace GuardianAPI.BLL
                         .SingleOrDefault();
 
                     if (existingParticipant != null)
-                        // update participant
+
+                        // Update participant
                         _context.Entry(existingParticipant).CurrentValues.SetValues(participant);
                     else
                     {
                         // Insert Participant
                         var newParticipant = new Participant
                         {
+                            CompanyID = participant.CompanyID,
                             FirstName = participant.FirstName,
-                            IssuedID = participant.IssuedID,
                             LastName = participant.LastName,
+                            IssuedID = participant.IssuedID,
                             MI = participant.MI,
+                            DOB = participant.DOB,
+                            Gender = participant.Gender,
+                            StartDate = participant.StartDate,
+                            EndDate = participant.EndDate,
+
                             Active = 1,
                             DateCreated = DateTime.Now,
                             DateUpdated = DateTime.Now,
+                            CreatedBy = dto.UserId,
+                            UpdatedBy = dto.UserId,
+
+                            // Add or Update the Contact record
+                            Contact = new Contact
+                            {
+                                RecordType = "PID",
+                                Address1 = participant.Contact.Address1,
+                                City = participant.Contact.City,
+                                State = participant.Contact.State,
+                                Zip1 = participant.Contact.Zip1,
+                                Phone = participant.Contact.Phone,
+                                Email = participant.Contact.Email,
+                                DateCreated = DateTime.Now,
+                                DateUpdated = DateTime.Now
+                            },
+
+                            // Participant Schedule Create
+                            ParticipantSchedule = new ParticipantSchedule
+                            {
+                                StartDate = participant.ParticipantSchedule.StartDate,
+                                EndDate = participant.ParticipantSchedule.EndDate,
+                                ScheduleId = participant.ParticipantSchedule.ScheduleId,
+                                ScheduleModel = participant.ParticipantSchedule.ScheduleModel,
+                                Frequency = participant.ParticipantSchedule.Frequency,
+                                Sunday = participant.ParticipantSchedule.Sunday,
+                                Monday = participant.ParticipantSchedule.Monday,
+                                Tuesday = participant.ParticipantSchedule.Tuesday,
+                                Wednesday = participant.ParticipantSchedule.Wednesday,
+                                Thursday = participant.ParticipantSchedule.Thursday,
+                                Friday = participant.ParticipantSchedule.Friday,
+                                Saturday = participant.ParticipantSchedule.Saturday,
+
+                                // Defaults
+                                Active = 1,
+                                DateCreated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
+                            },
+                            ParticipantPanels = participant.ParticipantPanels.Adapt<List<ParticipantPanel>>(),
+                        
+
+
+
                         };
                         existingUser.Participants.Add(newParticipant);
                     }

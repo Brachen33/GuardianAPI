@@ -33,5 +33,14 @@ namespace GuardianAPI.Repositories
         {
             throw new NotImplementedException();
         }
+
+
+        public List<ParticipantPanel> LoadParticipantPanelsForParticipant(List<ParticipantPanel> pPanels)
+        {
+
+
+            return pPanels; 
+        }
+
     }
 }
