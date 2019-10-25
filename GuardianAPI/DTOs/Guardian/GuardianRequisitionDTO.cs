@@ -10,11 +10,7 @@ namespace GuardianAPI.DTOs.Guardian
     { 
         public int CompanyId { get; set; }
         [Range(0,500,ErrorMessage ="Region Id is a required field")]
-        public int RegionId { get; set; }
-       // public DateTime ReqDate { get; set; } 
-       // public TimeSpan ReqTime { get; set; } 
-      //  public int ParticipantId { get; set; }
-        
+        public int RegionId { get; set; }        
         public string ParticipantIssuedId { get; set; }
         public string ParticipantFName { get; set; }
         public string ParticipantLName { get; set; }
@@ -28,7 +24,7 @@ namespace GuardianAPI.DTOs.Guardian
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-        public int CaseManagerId { get; set; }
+      //  public int CaseManagerId { get; set; }
         public int ScheduleFreq { get; set; }
         public int ScheduleSunday { get; set; }
         public int ScheduleMonday { get; set; }

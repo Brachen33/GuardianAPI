@@ -38,7 +38,7 @@ namespace GuardianAPI.DTOs
         public GuardianContactDTO Contact { get; set; }
         public GuardianParticipantScheduleDTO ParticipantSchedule { get; set; }
         public List<GuardianParticipantPanelDTO> ParticipantPanels { get; set; }
-        public List<GuardianRequisitionDTO> Requisitions { get; set; }
+        public GuardianRequisitionDTO Requisition { get; set; }
         public List<GuardianTestScheduleDTO> TestSchedules { get; set; }  
         public List<GuardianPaternityRelationDTO> PaternityRelations { get; set; }
        
@@ -48,7 +48,7 @@ namespace GuardianAPI.DTOs
             Contact = new GuardianContactDTO();
             ParticipantSchedule = new GuardianParticipantScheduleDTO();
             ParticipantPanels = new List<GuardianParticipantPanelDTO>();
-            Requisitions = new List<GuardianRequisitionDTO>();
+            Requisition = new GuardianRequisitionDTO();
             TestSchedules = new List<GuardianTestScheduleDTO>();
             PaternityRelations = new List<GuardianPaternityRelationDTO>();
         }

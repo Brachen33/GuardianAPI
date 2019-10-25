@@ -28,7 +28,7 @@ namespace GuardianAPI.BLL
 
 
         public ExternalCreateParticipant(AppDbContext context, ILoggerManager logger, IUserRepository user
-            , IParticipantRepository participantRepository, IPanelRepository panelRepository, IConfiguration config,IParticipantPanelRepository participantPanelRepository)
+            , IParticipantRepository participantRepository, IPanelRepository panelRepository, IConfiguration config, IParticipantPanelRepository participantPanelRepository)
         {
             _context = context;
             _user = user;
@@ -54,16 +54,26 @@ namespace GuardianAPI.BLL
 
             // Initialize Lists
             List<ParticipantPanel> participantPanels = new List<ParticipantPanel>();
-           
+
 
             //    var testModel = dto.User.Adapt<User>();           
 
             // New Process
             // (Parent)
+            //var existingUser = _context.Users
+            //    .Where(u => u.Id == dto.User.Id)
+            //    .Include(x => x.Contact)
+            //    .Include(p => p.Participants)
+
+            //    .SingleOrDefault();
+
             var existingUser = _context.Users
                 .Where(u => u.Id == dto.User.Id)
                 .Include(x => x.Contact)
                 .Include(p => p.Participants)
+                .Include("Participants.Contact")
+                .Include("Participants.ParticipantSchedule")           
+                .Include("Participants.Requisition")
                 .SingleOrDefault();
 
 
@@ -73,13 +83,6 @@ namespace GuardianAPI.BLL
                 //Update User(Parent)
                 _context.Entry(existingUser).CurrentValues.SetValues(dto.User);
 
-                // Delete the Participants (Remove from tracking)
-                //foreach (var existingParticipant in existingUser.Participants.ToList())
-                //{
-                //    if (!dto.User.Participants.Any(c => c.Id == existingParticipant.Id))
-                //        _context.Participants.Remove(existingParticipant);
-                //}
-
                 // Update and Insert Participants
                 foreach (var participant in dto.User.Participants)
                 {
@@ -88,11 +91,146 @@ namespace GuardianAPI.BLL
                         .SingleOrDefault();
 
                     if (existingParticipant != null)
-
+                    {
                         // Update participant
                         _context.Entry(existingParticipant).CurrentValues.SetValues(participant);
+
+                        //If Participant Contact exists Update Participant Contact
+                        if (existingParticipant.Contact.Id != 0)
+                        {
+                            _context.Entry(existingParticipant.Contact).CurrentValues.SetValues(participant.Contact);
+                        }
+                        // This is a new Contact on an existing participant
+                        else
+                        {
+                            var newContact = new Contact
+                            {
+                                RecordID = participant.Id,
+                                RecordType = "PID",
+                                Address1 = participant.Contact.Address1,
+                                City = participant.Contact.City,
+                                State = participant.Contact.State,
+                                Zip1 = participant.Contact.Zip1,
+                                Phone = participant.Contact.Phone,
+                                Email = participant.Contact.Email,
+                                DateCreated = DateTime.Now,
+                                DateUpdated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
+                            };
+                            _context.Contacts.Add(newContact);
+                        }
+                        // Participant Schedule ALWAYS gets a new insert
+                        if (participant.ParticipantSchedule != null)
+                        {
+                            var participantSchedule = new ParticipantSchedule
+                            {
+                                ParticipantId = participant.Id,
+                                StartDate = participant.ParticipantSchedule.StartDate,
+                                EndDate = participant.ParticipantSchedule.EndDate,
+                                ScheduleId = participant.ParticipantSchedule.ScheduleId,
+                                ScheduleModel = participant.ParticipantSchedule.ScheduleModel,
+                                Frequency = participant.ParticipantSchedule.Frequency,
+                                Sunday = participant.ParticipantSchedule.Sunday,
+                                Monday = participant.ParticipantSchedule.Monday,
+                                Tuesday = participant.ParticipantSchedule.Tuesday,
+                                Wednesday = participant.ParticipantSchedule.Wednesday,
+                                Thursday = participant.ParticipantSchedule.Thursday,
+                                Friday = participant.ParticipantSchedule.Friday,
+                                Saturday = participant.ParticipantSchedule.Saturday,
+
+                                // Defaults
+                                Active = 1,
+                                DateCreated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
+                            };
+                            _context.ParticipantSchedules.Add(participantSchedule);
+                        }
+
+
+                        // If a requisition exists Add it
+                        if (participant.Requisition != null)
+                        {
+                            var requisition = new Requisition
+                            {
+                                CompanyId = participant.Requisition.CompanyId,
+                                RegionId = participant.Requisition.RegionId,
+                                ParticipantIssuedId = participant.IssuedID,
+                                ParticipantFName = participant.FirstName,
+                                ParticipantLName = participant.LastName,
+                                RecordType = "Requisition",
+                                CaseNumber = participant.Requisition.CaseNumber,
+                                ProfileCode = 0,
+                                // TODO: take a look at other tables to see if you can populate schedule id
+                                ProfileDescription = participant.Requisition.ProfileDescription,
+                                ScheduleId = participant.Requisition.ScheduleId,
+                                ScheduleModel = participant.Requisition.ScheduleModel,
+                                ScheduleFreq = participant.Requisition.ScheduleFreq,
+                                ScheduleSunday = participant.Requisition.ScheduleSunday,
+                                ScheduleMonday = participant.Requisition.ScheduleMonday,
+                                ScheduleTuesday = participant.Requisition.ScheduleTuesday,
+                                ScheduleWednesday = participant.Requisition.ScheduleWednesday,
+                                ScheduleThursday = participant.Requisition.ScheduleThursday,
+                                ScheduleFriday = participant.Requisition.ScheduleFriday,
+                                ScheduleSaturday = participant.Requisition.ScheduleSaturday,
+                                StartDate = participant.Requisition.StartDate,
+                                EndDate = participant.Requisition.EndDate,
+                                CaseManagerId = existingUser.Id,
+                                CaseManagerFName = dto.User.FirstName,
+                                CaseManagerLName = dto.User.LastName,
+                                // Defaults
+                                Active = 1,
+                                DateCreated = DateTime.Now,
+                                DateUpdated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
+                            };
+                            _context.Requisitions.Add(requisition);
+                        }
+
+                        // TODO: Check if this is validating correctly
+                        if (participant.ParticipantPanels.Count > 0)
+                        {
+                            var pPanels = new List<ParticipantPanel>();
+
+                            foreach (var pPanel in participant.ParticipantPanels)
+                            {
+                                var participantPanel = new ParticipantPanel
+                                {
+                                    CompanyId = participant.CompanyID,
+                                    RegionId = participant.RegionID,
+                                    UserId = existingUser.Id,
+                                    ParticipantId = participant.Id,
+                                    PanelId = pPanel.PanelId,
+                                    ScheduleId = pPanel.ScheduleId,
+                                    ScheduleType = pPanel.ScheduleType,
+                                    StartDate = pPanel.StartDate,
+                                    EndDate = pPanel.EndDate,
+
+                                    //Defaults
+                                    Active = 1,
+                                    DateCreated = DateTime.Now,
+                                    DateUpdated = DateTime.Now,
+                                    CreatedBy = dto.UserId,
+                                    UpdatedBy = dto.UserId
+                                };
+                                pPanels.Add(participantPanel);
+                            }
+                            _context.ParticipantPanels.AddRange(pPanels);
+                        }
+                    }
+             
+                    
+                    // If the Participant does not exist, create the new records
                     else
                     {
+                        // check for an existing issued id
+                        if (_participantRepository.DoesParticipantExist(participant.IssuedID))
+                        {
+                            return "Issued Id already exists.";
+                        }
+
                         // Insert Participant
                         var newParticipant = new Participant
                         {
@@ -123,10 +261,12 @@ namespace GuardianAPI.BLL
                                 Phone = participant.Contact.Phone,
                                 Email = participant.Contact.Email,
                                 DateCreated = DateTime.Now,
-                                DateUpdated = DateTime.Now
+                                DateUpdated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
                             },
 
-                            // Participant Schedule Create
+                            // Participant Schedule Create (NEVER UPDATED)
                             ParticipantSchedule = new ParticipantSchedule
                             {
                                 StartDate = participant.ParticipantSchedule.StartDate,
@@ -148,8 +288,48 @@ namespace GuardianAPI.BLL
                                 CreatedBy = dto.UserId,
                                 UpdatedBy = dto.UserId
                             },
+                            Requisition = new Requisition
+                            {
+                                CompanyId = participant.Requisition.CompanyId,
+                                RegionId = participant.Requisition.RegionId,
+                                ParticipantIssuedId = participant.IssuedID,
+                                ParticipantFName = participant.FirstName,
+                                ParticipantLName = participant.LastName,
+                                RecordType = "Requisition",
+                                CaseNumber = participant.Requisition.CaseNumber,
+                                ProfileCode = 0,
+                                // TODO: take a look at other tables to see if you can populate schedule id
+                                ProfileDescription = participant.Requisition.ProfileDescription,
+                                ScheduleId = participant.Requisition.ScheduleId,
+                                ScheduleModel = participant.Requisition.ScheduleModel,
+                                ScheduleFreq = participant.Requisition.ScheduleFreq,
+                                ScheduleSunday = participant.Requisition.ScheduleSunday,
+                                ScheduleMonday = participant.Requisition.ScheduleMonday,
+                                ScheduleTuesday = participant.Requisition.ScheduleTuesday,
+                                ScheduleWednesday = participant.Requisition.ScheduleWednesday,
+                                ScheduleThursday = participant.Requisition.ScheduleThursday,
+                                ScheduleFriday = participant.Requisition.ScheduleFriday,
+                                ScheduleSaturday = participant.Requisition.ScheduleSaturday,
+                                StartDate = participant.Requisition.StartDate,
+                                EndDate = participant.Requisition.EndDate,
+                                CaseManagerId = existingUser.Id,
+                                CaseManagerFName = dto.User.FirstName,
+                                CaseManagerLName = dto.User.LastName,
+
+
+
+
+                                // Defaults
+                                Active = 1,
+                                DateCreated = DateTime.Now,
+                                DateUpdated = DateTime.Now,
+                                CreatedBy = dto.UserId,
+                                UpdatedBy = dto.UserId
+                            },
+
                             ParticipantPanels = participant.ParticipantPanels.Adapt<List<ParticipantPanel>>(),
-                        
+
+
 
 
 

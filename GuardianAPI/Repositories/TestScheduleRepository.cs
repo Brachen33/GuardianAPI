@@ -16,7 +16,6 @@ namespace GuardianAPI.Repositories
             _context = context;
         }
 
-
         public IEnumerable<TestSchedule> GetAll()
         {
             return _context.TestSchedules;

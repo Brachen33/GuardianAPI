@@ -32,13 +32,14 @@ namespace GuardianAPI.Models
 
 
         public ParticipantPanel()
-        { }
+        {
 
-        public ParticipantPanel(List<ParticipantPanel> pPanels)
-        {          
-            
-            
+            Active = 1;
+            DateCreated = DateTime.Now;
+            DateUpdated = DateTime.Now;
         }
+
+        
        
        
     }

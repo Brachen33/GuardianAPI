@@ -10,6 +10,9 @@ namespace GuardianAPI.Models
     [Table("td_requisition")]
     public class Requisition
     {
+        
+
+
         public int Id { get; set; }
         [Required]
         [Range(3, int.MaxValue, ErrorMessage = "Please provide a Company for the requisition")]
@@ -22,9 +25,12 @@ namespace GuardianAPI.Models
         [Required]
         [DataType(DataType.Time)]
         public TimeSpan ReqTime { get; set; }
+        [ForeignKey("Participant")]
         public int? ParticipantId { get; set; }
-        public string ParticipantIssuedId { get; set; }
-        public string ParticipantFName { get; set; }
+
+
+        public string ParticipantIssuedId { get; set; } 
+        public string ParticipantFName { get; set; } 
         public string ParticipantLName { get; set; }
         public string RecordType { get; set; }
         public string CaseNumber { get; set; }
@@ -36,6 +42,7 @@ namespace GuardianAPI.Models
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+        [ForeignKey("User")]
         public int CaseManagerId { get; set; }
         public int? ScheduleFreq { get; set; }
         public int? ScheduleSunday { get; set; }
@@ -58,6 +65,15 @@ namespace GuardianAPI.Models
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
 
-        public Participant Participant { get; set; }
+        public virtual Participant Participant { get; set; }
+        public virtual User User { get; set; }
+
+        public Requisition()
+        {
+           
+        }
+
+                       
+
     }
 }

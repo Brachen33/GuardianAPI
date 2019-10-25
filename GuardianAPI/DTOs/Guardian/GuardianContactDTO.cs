@@ -9,7 +9,7 @@ namespace GuardianAPI.DTOs.Guardian
 {
     public class GuardianContactDTO
     {        
-        [Range(0, 11, ErrorMessage = "RecordId for Contact is too many characters ")]
+        public int Id { get; set; }        
         public int RecordID { get; set; }
         [Required]
         [MaxLength(3,ErrorMessage ="Record Type Max characters is 3")]

@@ -19,11 +19,11 @@ namespace GuardianAPI.Models
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
 
-   //     public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
+        //     public IEnumerable<ParticipantPanel> ParticipantPanels { get; set; }
 
         public Company()
         {
-   //         ParticipantPanels = new List<ParticipantPanel>();
+            //         ParticipantPanels = new List<ParticipantPanel>();
         }
     }
 }

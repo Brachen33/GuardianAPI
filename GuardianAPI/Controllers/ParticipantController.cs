@@ -104,8 +104,7 @@ namespace GuardianAPI.Controllers
             }
             else
             {
-                var userAndParticipants = _externalCreate.GuardianProcess(dto);
-               // var userAndParticipants = _participantRepository.CreateParticipantFromGuardian(dto);
+                var userAndParticipants = _externalCreate.GuardianProcess(dto);             
                 return Ok(userAndParticipants);
             }
         }

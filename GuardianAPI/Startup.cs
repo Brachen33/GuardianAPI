@@ -79,6 +79,7 @@ namespace GuardianAPI
             // Register Interfaces with their implementations
             services.AddScoped<ICollectionRepository, CollectionRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddScoped<IDocumentDataRepository, DocumentDataRepository>();  
             services.AddScoped<ILogEntryRepository, LogEntryRepository>();

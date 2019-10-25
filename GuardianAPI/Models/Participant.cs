@@ -14,14 +14,14 @@ namespace GuardianAPI.Models
         [Required]
         public int CompanyID { get; set; }
         [Required]
-        [StringLength(15, ErrorMessage = "You must enter a Social Security Number")]     
+        [StringLength(15, ErrorMessage = "You must enter a Social Security Number")]
         public string IssuedID { get; set; }
         [StringLength(35, ErrorMessage = "The maximum number of characters for a first name is 35")]
         public string FirstName { get; set; }
         [StringLength(35, ErrorMessage = "The maximum number of characters for a last name is 35")]
         public string LastName { get; set; }
         [StringLength(1, ErrorMessage = "A middle initial can only be one character")]
-        public string MI { get; set; }       
+        public string MI { get; set; }
         public int CaseManagerId { get; set; }
         public string Gender { get; set; }
         [Required]
@@ -35,7 +35,7 @@ namespace GuardianAPI.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public int Active { get; set; }
-        
+
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
         public int RegionID { get; set; }
@@ -44,20 +44,20 @@ namespace GuardianAPI.Models
         public User User { get; set; }
         public Contact Contact { get; set; }
         public List<ParticipantPanel> ParticipantPanels { get; set; }
-     //   public List<Requisition> Requisitions { get; set; }
+        public Requisition Requisition { get; set; }
         public ParticipantSchedule ParticipantSchedule { get; set; }
-     //   public List<TestSchedule> TestSchedules { get; set; }
-     //   public List<PaternityRelation> PaternityRelations { get; set; }
+        //   public List<TestSchedule> TestSchedules { get; set; }
+        //   public List<PaternityRelation> PaternityRelations { get; set; }
 
-      
+
         public Participant()
-        {           
-           Contact = new Contact();
+        {
+            Contact = new Contact();
             ParticipantPanels = new List<ParticipantPanel>();
-       //     Requisitions = new List<Requisition>();
+            Requisition = new Requisition();
             ParticipantSchedule = new ParticipantSchedule();
-       //     TestSchedules = new List<TestSchedule>();
-       //     PaternityRelations = new List<PaternityRelation>();
+            //     TestSchedules = new List<TestSchedule>();
+            //     PaternityRelations = new List<PaternityRelation>();
         }
     }
 }

@@ -9,6 +9,14 @@ namespace GuardianAPI.Repositories
 {
     public class RegionRepository : IRegionRepository
     {
+        private readonly AppDbContext _context;
+
+        public RegionRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+
         public Region Add(Region region)
         {
             throw new NotImplementedException();
@@ -16,12 +24,12 @@ namespace GuardianAPI.Repositories
 
         public Region GetRegion(int Id)
         {
-            throw new NotImplementedException();
+            return _context.Regions.Find(Id);
         }
 
         public IEnumerable<Region> Regions()
         {
-            throw new NotImplementedException();
+            return _context.Regions;
         }
 
         public Region Update(Region regionChanges)
