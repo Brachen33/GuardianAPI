@@ -23,40 +23,30 @@ namespace GuardianAPI.Repositories
             _logEntry = logEntry;
         }
 
-        public Participant Add(Participant participant)
+        public async Task<Participant> Add(Participant participant)
         {
-            _context.Participants.Add(participant);
-            _context.SaveChanges();
+            await _context.Participants.AddAsync(participant);
+            await _context.SaveChangesAsync();
             return participant;
         }
 
        
-        public Participant Delete(int id)
+       
+        public async Task<IEnumerable<Participant>> GetAllParticipants()
         {
-            Participant participant = _context.Participants.FirstOrDefault(x => x.Id == id);
-
-            if (participant != null)
-            {
-                _context.Participants.Remove(participant);
-            }
-            return participant;
+            return await _context.Participants.ToListAsync();
         }
 
-        public IEnumerable<Participant> GetAllParticipants()
+        public async Task<Participant> GetParticipant(int Id)
         {
-            return _context.Participants;
+            return await _context.Participants.FindAsync(Id);
         }
 
-        public Participant GetParticipant(int Id)
-        {
-            return _context.Participants.Find(Id);
-        }
-
-        public Participant GetParticipantByIsssuedId(string issuedId)
+        public async Task<Participant> GetParticipantByIsssuedId(string issuedId)
         {
             if (issuedId != null)
             {
-                return _context.Participants.FirstOrDefault(x => x.IssuedID == issuedId);
+                return await _context.Participants.FirstOrDefaultAsync(x => x.IssuedID == issuedId);
             }
             return null;
         }
@@ -70,28 +60,28 @@ namespace GuardianAPI.Repositories
         //        .FirstOrDefault(x => x.Id == Id);
         //}
 
-        //public Participant GetParticipantWithContact(int id)
-        //{
-        //    return _context.Participants.Include(x => x.Contact).FirstOrDefault(x => x.Id == id);
-        //}
+        public async Task<Participant> GetParticipantWithContact(int id)
+        {
+            return await _context.Participants.Include(x => x.Contact).FirstOrDefaultAsync(x => x.Id == id);
+        }
 
         //public Participant GetParticipantWithResults(int id)
         //{
         //    return _context.Participants.Include(x => x.Results).FirstOrDefault(x => x.Id == id);
         //}
 
-        public Participant Update(Participant participantChanges)
+        public async Task<Participant> Update(Participant participantChanges)
         {
-            var participant = _context.Participants.Attach(participantChanges);
+            var participant =  _context.Participants.Attach(participantChanges);
             participant.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return participantChanges;
         }
 
-        public bool DoesParticipantExist(string issuedId)
+        public async Task<bool> DoesParticipantExist(string issuedId)
         {
-         return _context.Participants.Any(p => p.IssuedID == issuedId);          
+         return await _context.Participants.AnyAsync(p => p.IssuedID == issuedId);          
         }
 
 

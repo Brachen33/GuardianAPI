@@ -8,7 +8,7 @@ namespace GuardianAPI.Models
 {
     [Table("td_tests_panels")]
     public class TestPanel
-    {
+    {      
         public int TestID { get; set; }
         public int PanelID { get; set; }
         public string LabCode { get; set; }
@@ -26,7 +26,7 @@ namespace GuardianAPI.Models
 
         public TestPanel()
         {
-           
+          
         }
     }
 }

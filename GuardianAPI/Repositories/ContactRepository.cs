@@ -1,5 +1,6 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace GuardianAPI.Repositories
         public ContactRepository(AppDbContext context)
         {
             _context = context;
-
         }
 
         public Contact Add(Contact contact)
@@ -22,14 +22,21 @@ namespace GuardianAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Contact> GetAllContacts()
+        public async Task<IEnumerable<Contact>> GetAllContacts()
         {
-            throw new NotImplementedException();
+            return await _context.Contacts.ToListAsync();
         }
 
-        public Contact GetContact(int Id)
+        public async Task<Contact> GetContact(int Id)
         {
-            throw new NotImplementedException();
+            return await _context.Contacts.FindAsync(Id);
+        }
+
+        public async Task<Contact> GetContactForParticipantByRecordId(int recordId)
+        {
+            var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.RecordID == recordId && x.RecordType == "PID");
+
+            return contact;
         }
 
         public Contact UpdateContact(Contact contactChanges)
@@ -40,5 +47,8 @@ namespace GuardianAPI.Repositories
 
             return contactChanges;
         }
+
+
+        
     }
 }

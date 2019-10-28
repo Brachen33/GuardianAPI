@@ -9,7 +9,7 @@ namespace GuardianAPI.Interfaces
     public interface IPanelRepository
     {
         Panel GetPanel(int Id);
-        IEnumerable<Panel> GetAllPanels();
+        Task<IEnumerable<Panel>> GetAllPanels();
         Panel Add(Panel panel);
         Panel Update(Panel panelChanges);
         Panel GetPanelByPanelCode(string code);

@@ -9,7 +9,7 @@ namespace GuardianAPI.Models
 {
     [Table("td_participant")]
     public class Participant
-    {
+    {       
         public int Id { get; set; }
         [Required]
         public int CompanyID { get; set; }
@@ -46,7 +46,7 @@ namespace GuardianAPI.Models
         public List<ParticipantPanel> ParticipantPanels { get; set; }
         public Requisition Requisition { get; set; }
         public ParticipantSchedule ParticipantSchedule { get; set; }
-        //   public List<TestSchedule> TestSchedules { get; set; }
+           public List<TestSchedule> TestSchedules { get; set; }
         //   public List<PaternityRelation> PaternityRelations { get; set; }
 
 
@@ -55,8 +55,8 @@ namespace GuardianAPI.Models
             Contact = new Contact();
             ParticipantPanels = new List<ParticipantPanel>();
             Requisition = new Requisition();
-            ParticipantSchedule = new ParticipantSchedule();
-            //     TestSchedules = new List<TestSchedule>();
+         //   ParticipantSchedule = new ParticipantSchedule();
+            TestSchedules = new List<TestSchedule>();
             //     PaternityRelations = new List<PaternityRelation>();
         }
     }

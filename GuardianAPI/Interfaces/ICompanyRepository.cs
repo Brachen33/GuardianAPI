@@ -8,7 +8,8 @@ namespace GuardianAPI.Interfaces
 {
     public interface ICompanyRepository
     {
-        Company GetCompany(int id);
+       Task<Company> GetCompany(int id);
+       Task<IEnumerable<Company>> GetCompanies();
       
     }
 }

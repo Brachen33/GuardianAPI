@@ -33,13 +33,20 @@ namespace GuardianAPI.Models
 
         public ParticipantPanel()
         {
-
             Active = 1;
             DateCreated = DateTime.Now;
             DateUpdated = DateTime.Now;
         }
 
-        
+        public List<ParticipantPanel> ParticipantPanels(List<ParticipantPanel> participantPanels)
+        {            
+            foreach (var item in participantPanels) {
+                Active = 1;
+                DateCreated = DateTime.Now;
+                DateUpdated = DateTime.Now;
+            }
+            return participantPanels;
+        }
        
        
     }

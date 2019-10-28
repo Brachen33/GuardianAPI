@@ -11,7 +11,7 @@ namespace GuardianAPI.DTOs.Guardian
        
         public int CompanyId { get; set; }       
         public int RegionId { get; set; }
-        [Required]
+       
         public int ParticipantId { get; set; }
         public int SiteID { get; set; }
         [DataType(DataType.Date)]

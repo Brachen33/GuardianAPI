@@ -17,6 +17,25 @@ namespace GuardianAPI.Controllers
             _panelRepository = panelRepository;
         }
 
+
+        [HttpGet]
+        [Route("getAllPanels")]
+        public async Task<IActionResult> GetAllPanels()
+        {
+            try
+            {
+                var panels = await _panelRepository.GetAllPanels();
+
+                return Ok(panels);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+
+            }
+
+        }
+
         [HttpGet]
         [Route("getById/{id}")]
         public IActionResult GetById(int id)

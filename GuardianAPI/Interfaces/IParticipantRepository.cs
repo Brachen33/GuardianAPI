@@ -10,18 +10,17 @@ namespace GuardianAPI.Interfaces
 {
     public interface IParticipantRepository
     {
-        Participant GetParticipant(int Id);
-        IEnumerable<Participant> GetAllParticipants();
-        Participant Add(Participant participant);
-        Participant Update(Participant participantChanges);
-        Participant Delete(int id);
-        bool DoesParticipantExist(string issuedId);
+        Task<Participant> GetParticipant(int Id);
+        Task<IEnumerable<Participant>> GetAllParticipants();
+        Task<Participant> Add(Participant participant);
+        Task<Participant> Update(Participant participantChanges);     
+        Task<bool> DoesParticipantExist(string issuedId);
 
         // Additional Methods for retrieving a Participant
-        Participant GetParticipantByIsssuedId(string issuedId);
+        Task<Participant> GetParticipantByIsssuedId(string issuedId);
         
       //  Participant GetParticipantWithAll(int Id);
-      //  Participant GetParticipantWithContact(int id);
+        Task<Participant> GetParticipantWithContact(int id);
         // Retrieves Results and Result Details
        // Participant GetParticipantWithResults(int id);
         //

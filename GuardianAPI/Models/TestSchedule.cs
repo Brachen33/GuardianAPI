@@ -11,7 +11,7 @@ namespace GuardianAPI.Models
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public int RegionId { get; set; }
+        public int RegionId { get; set; }        
         public int ParticipantId { get; set; }
         public int SiteID { get; set; }
         public DateTime TestDate { get; set; }

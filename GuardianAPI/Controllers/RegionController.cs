@@ -17,6 +17,23 @@ namespace GuardianAPI.Controllers
             _regionRepository = regionRepository;
         }
 
+
+        [HttpGet]
+        [Route("getAllRegions")]
+        public IActionResult GetAllRegions()
+        {
+            try
+            {
+                return Ok(_regionRepository.Regions());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }
+
+
+        }
+
         [HttpGet]
         [Route("getbyid/{id}")]
         public IActionResult GetById(int id)

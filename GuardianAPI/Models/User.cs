@@ -94,7 +94,7 @@ namespace GuardianAPI.Models
             Participants = new List<Participant>();
             Contact = new Contact();
             // ParticipantPanels = new List<ParticipantPanel>();
-            Requisitions = new List<Requisition>();
+        //    Requisitions = new List<Requisition>();
         }
     }
 }

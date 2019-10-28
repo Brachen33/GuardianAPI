@@ -8,9 +8,13 @@ namespace GuardianAPI.Interfaces
 {
     public interface IContactRepository
     {
-        Contact GetContact(int Id);
-        IEnumerable<Contact> GetAllContacts();
+        Task<Contact> GetContact(int Id);
+       Task<IEnumerable<Contact>> GetAllContacts();
         Contact Add(Contact contact);
         Contact UpdateContact(Contact contactChanges);
+
+
+        // Get Contact by the Record Id of the participant
+        Task<Contact> GetContactForParticipantByRecordId(int recordId);
     }
 }

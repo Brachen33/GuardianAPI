@@ -1,6 +1,7 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Interfaces.ILoggerManager;
 using GuardianAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,10 @@ namespace GuardianAPI.Repositories
             return panel;
         }        
 
-        public IEnumerable<Panel> GetAllPanels()
+        public async Task<IEnumerable<Panel>> GetAllPanels()
         {
+            var panels = await _context.Panels.ToListAsync();
+
             return _context.Panels;
         }
 

@@ -1,5 +1,6 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +17,14 @@ namespace GuardianAPI.Repositories
             _context = context;
         }
 
-              
-
-        public Company GetCompany(int id)
+        public async Task<IEnumerable<Company>> GetCompanies()
         {
-            return _context.Companies.Find(id);
+            return await _context.Companies.ToListAsync();
         }
 
-       
+        public async Task<Company> GetCompany(int id)
+        {
+            return await _context.Companies.FindAsync(id);
+        }
     }
 }
