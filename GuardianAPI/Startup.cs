@@ -62,12 +62,10 @@ namespace GuardianAPI
                 });
             
 
-            services.AddMvc();
-
-           
-            //   .AddJsonOptions(
-            //       options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //   ).AddXmlSerializerFormatters(); 
+            services.AddMvc()           
+               .AddJsonOptions(
+                   options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+               ).AddXmlSerializerFormatters();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -132,7 +130,7 @@ namespace GuardianAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Guardian API V1");
             });
             
             app.UseStaticFiles();

@@ -38,6 +38,7 @@ namespace GuardianAPI.Repositories
 
             return contact;
         }
+               
 
         public Contact UpdateContact(Contact contactChanges)
         {
@@ -46,6 +47,13 @@ namespace GuardianAPI.Repositories
             _context.SaveChanges();
 
             return contactChanges;
+        }
+
+        public async Task<Contact> GetContactByTypeAndRecordId(int recordId, string type)
+        { 
+            var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.RecordType == type && x.RecordID == recordId);
+
+            return contact;
         }
 
 

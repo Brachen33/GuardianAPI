@@ -220,7 +220,7 @@ namespace GuardianAPI.BLL
                             foreach (var tPanel in tScheduleDTO.TestPanels)
                             {
                                 // Get the Panel to populate fields
-                                var panel = _panel.GetPanel(tPanel.PanelID);
+                                var panel = await _panel.GetPanel(tPanel.PanelID);
 
                                 var newTPanel = new TestPanel
                                 {
@@ -354,8 +354,8 @@ namespace GuardianAPI.BLL
                 // Update and Insert Participants
                 foreach (var participant in dto.User.Participants)
                 {
-                    var existingParticipant = existingUser.Participants
-                        .Where(c => c.Id == participant.Id)
+                    var existingParticipant = existingUser.Participants                                    
+                        .Where(c => c.Id == participant.Id)                        
                         .SingleOrDefault();
 
                     if (existingParticipant != null)
@@ -366,7 +366,10 @@ namespace GuardianAPI.BLL
                         //If Participant Contact exists Update Participant Contact
                         if (existingParticipant.Contact.Id != 0)
                         {
-                            _context.Entry(existingParticipant.Contact).CurrentValues.SetValues(participant.Contact);
+                            // Get the Existing Contact
+                            var existingContact = existingParticipant.Contact;
+
+                            _context.Entry(existingParticipant.Contact).CurrentValues.SetValues(existingContact);
                         }
                         // This is a new Contact on an existing participant
                         else

@@ -47,5 +47,21 @@ namespace GuardianAPI.Controllers
                 return StatusCode(500, ex.ToString());
             }
         }
+
+        [HttpGet]
+        [Route("GetByName/{name}")]
+        public async Task<IActionResult> GetByName(string name)
+        {
+            try
+            {
+                return Ok(await _companyRepository.GetByName(name));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+
+            }
+
+        }
     }
 }

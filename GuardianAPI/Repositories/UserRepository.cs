@@ -1,5 +1,6 @@
 ﻿using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,32 +14,39 @@ namespace GuardianAPI.Repositories
 
         public UserRepository(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
-
-        public User Add(User user)
+        public async Task<User> Add(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return user;            
-        }
-       
-        public IEnumerable<User> GetAllUsers()
-        {
-            return _context.Users;
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
-        public User GetUser(int Id)
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return _context.Users.Find(Id);
+            return await _context.Users.ToListAsync();
         }
 
-        public User Update(User userChanges)
+        public async Task<User> GetUser(int Id)
+        {
+            return await _context.Users.FindAsync(Id);
+        }
+
+        public async Task<User> GetUserWithParticipantsByIdAsync(int id)
+        {
+            var user = await _context.Users.Include(x => x.Participants)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return user;
+        }
+
+        public async Task<User> Update(User userChanges)
         {
             var user = _context.Users.Attach(userChanges);
             user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return userChanges;
         }

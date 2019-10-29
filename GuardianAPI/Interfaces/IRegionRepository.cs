@@ -1,4 +1,5 @@
-﻿using GuardianAPI.Models;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace GuardianAPI.Interfaces
 {
     public interface IRegionRepository
     {
-        Region GetRegion(int Id);
-        IEnumerable<Region> Regions();
-        Region Add(Region region);
-        Region Update(Region regionChanges);        
+        Task<RegionDTO> GetRegion(int Id);
+        Task<IEnumerable<RegionDTO>> Regions();     
+
+        Task<RegionDTO> GetByName(string name);
     }
 }

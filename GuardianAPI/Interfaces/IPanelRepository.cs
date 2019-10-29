@@ -1,4 +1,5 @@
-﻿using GuardianAPI.Models;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ namespace GuardianAPI.Interfaces
 {
     public interface IPanelRepository
     {
-        Panel GetPanel(int Id);
-        Task<IEnumerable<Panel>> GetAllPanels();
+        Task<PanelDTO> GetPanel(int Id);
+        Task<IEnumerable<PanelDTO>> GetAllPanels();
         Panel Add(Panel panel);
-        Panel Update(Panel panelChanges);
-        Panel GetPanelByPanelCode(string code);
+        //Panel Update(Panel panelChanges);
+        Task<PanelDTO> GetPanelByPanelCode(string code);
        
     }
 }

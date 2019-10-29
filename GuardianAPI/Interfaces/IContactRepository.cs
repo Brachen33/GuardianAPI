@@ -16,5 +16,6 @@ namespace GuardianAPI.Interfaces
 
         // Get Contact by the Record Id of the participant
         Task<Contact> GetContactForParticipantByRecordId(int recordId);
+        Task<Contact> GetContactByTypeAndRecordId(int recordId,string type);
     }
 }

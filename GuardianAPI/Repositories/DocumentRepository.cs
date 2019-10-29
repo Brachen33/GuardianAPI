@@ -29,10 +29,10 @@ namespace GuardianAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public byte[] GetLatestParticipantPhotoByParticipantId(int participantId)
+        public async Task<byte[]> GetLatestParticipantPhotoByParticipantId(int participantId)
         {
-            var document = _context.Documents.Include(x => x.DocumentData)
-                 .OrderByDescending(x => x.ParticipantId == participantId && x.DocType == "TestDay Photo").FirstOrDefault();
+            var document = await _context.Documents.Include(x => x.DocumentData)
+                 .OrderByDescending(x => x.ParticipantId == participantId && x.DocType == "TestDay Photo").FirstOrDefaultAsync();
 
             // var document = _context.Documents.Include(x => x.)
 

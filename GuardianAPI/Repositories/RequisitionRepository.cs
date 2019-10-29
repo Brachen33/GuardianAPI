@@ -1,5 +1,8 @@
-﻿using GuardianAPI.Interfaces;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +12,33 @@ namespace GuardianAPI.Repositories
 {
     public class RequisitionRepository : IRequisitionRepository
     {
-        public Requisition Add(Requisition requisition)
+        private readonly AppDbContext _context;
+
+        public RequisitionRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IEnumerable<Requisition> GetAllRequisitions()
+
+        public async Task<RequisitionDTO> Add(RequisitionDTO requisition)
         {
-            throw new NotImplementedException();
+            var req = requisition.Adapt<Requisition>();
+             _context.Requisitions.Add(req);
+            await _context.SaveChangesAsync();
+            return requisition;
         }
 
-        public Requisition GetRequisition(int Id)
+        public async Task<IEnumerable<RequisitionDTO>> GetAllRequisitions()
         {
-            throw new NotImplementedException();
+            var reqs = await _context.Requisitions.ToListAsync();
+            return reqs.Adapt<IEnumerable<RequisitionDTO>>();
         }
 
-        public Requisition Update(Requisition requisitionChanges)
+        public async Task<RequisitionDTO> GetRequisition(int Id)
         {
-            throw new NotImplementedException();
-        }
+            var req = await _context.Requisitions.FindAsync(Id);
+
+            return req.Adapt<RequisitionDTO>();
+        }       
     }
 }

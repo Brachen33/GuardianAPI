@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
-using GuardianAPI.DTOs.Guardian;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace GuardianAPI.Repositories
 {
@@ -30,8 +28,6 @@ namespace GuardianAPI.Repositories
             return participant;
         }
 
-       
-       
         public async Task<IEnumerable<Participant>> GetAllParticipants()
         {
             return await _context.Participants.ToListAsync();
@@ -51,28 +47,14 @@ namespace GuardianAPI.Repositories
             return null;
         }
 
-        //public Participant GetParticipantWithAll(int Id)
-        //{
-        //    return _context.Participants.Include(x => x.Contact)
-        //        .Include(x => x.ParticipantSchedule)
-        //        .Include(x => x.Results)
-        //        .ThenInclude(x => x.ResultDetails)
-        //        .FirstOrDefault(x => x.Id == Id);
-        //}
-
         public async Task<Participant> GetParticipantWithContact(int id)
         {
             return await _context.Participants.Include(x => x.Contact).FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        //public Participant GetParticipantWithResults(int id)
-        //{
-        //    return _context.Participants.Include(x => x.Results).FirstOrDefault(x => x.Id == id);
-        //}
+        }       
 
         public async Task<Participant> Update(Participant participantChanges)
         {
-            var participant =  _context.Participants.Attach(participantChanges);
+            var participant = _context.Participants.Attach(participantChanges);
             participant.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await _context.SaveChangesAsync();
 
@@ -81,7 +63,23 @@ namespace GuardianAPI.Repositories
 
         public async Task<bool> DoesParticipantExist(string issuedId)
         {
-         return await _context.Participants.AnyAsync(p => p.IssuedID == issuedId);          
+            return await _context.Participants.AnyAsync(p => p.IssuedID == issuedId);
+        }
+
+        public async Task<IEnumerable<GuardianAPI.DTOs.GeneralDTOs.ParticipantDTO>> GetParticipantAutocompleteSearch(string sString)
+        {
+            IEnumerable<Participant> participants = new List<Participant>();
+            var isNumeric = int.TryParse(sString, out int n);
+
+            if (!isNumeric)
+            {
+                participants = await _context.Participants.Where(p => p.FirstName.Contains(sString) || p.LastName.Contains(sString) || (p.FirstName + " " + p.LastName).Contains(sString) || (p.LastName + " " + p.FirstName).Contains(sString) || (p.LastName + ", " + p.FirstName).Contains(sString)).ToListAsync();
+            }
+            else
+            {
+                participants = await _context.Participants.Where(p => p.IssuedID.Contains(sString)).ToListAsync();
+            }
+            return participants.Adapt<IEnumerable<DTOs.GeneralDTOs.ParticipantDTO>>().OrderBy(x => x.LastName);          
         }
 
 

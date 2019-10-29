@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GuardianAPI.DTOs.GeneralDTOs;
 using GuardianAPI.Models;
 
 namespace GuardianAPI.Interfaces
 {
     public interface IRequisitionRepository
     {
-        Requisition GetRequisition(int Id);
-        IEnumerable<Requisition> GetAllRequisitions();
-        Requisition Add(Requisition requisition);
-        Requisition Update(Requisition requisitionChanges);
+        Task<RequisitionDTO> GetRequisition(int Id);
+        Task<IEnumerable<RequisitionDTO>> GetAllRequisitions();
+        Task<RequisitionDTO> Add(RequisitionDTO requisition);        
     }
 }

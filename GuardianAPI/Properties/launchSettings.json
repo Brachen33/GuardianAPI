@@ -32,7 +32,7 @@
       //  "applicationUrl": "https://dev.guardianapi.com;http://dev.guardianapi.com",
 
       // Demo IIS
-     // "applicationUrl": "https://demo.guardianapi.com;http://demo.guardianapi.com",
+    //  "applicationUrl": "https://demo.guardianapi.com;http://demo.guardianapi.com",
 
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

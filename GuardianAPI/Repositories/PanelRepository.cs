@@ -1,6 +1,8 @@
-﻿using GuardianAPI.Interfaces;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Interfaces;
 using GuardianAPI.Interfaces.ILoggerManager;
 using GuardianAPI.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,38 +23,34 @@ namespace GuardianAPI.Repositories
         }
 
         public Panel Add(Panel panel)
-        {            
+        {
             _context.Panels.Add(panel);
             _context.SaveChanges();
             return panel;
-        }        
+        }
 
-        public async Task<IEnumerable<Panel>> GetAllPanels()
-        {
+        public async Task<IEnumerable<PanelDTO>> GetAllPanels()
+        {           
+
             var panels = await _context.Panels.ToListAsync();
 
-            return _context.Panels;
+            return panels.Adapt<IEnumerable<PanelDTO>>();      
         }
 
-        public Panel GetPanel(int Id)
+        public async Task<PanelDTO> GetPanel(int Id)
         {
-            return _context.Panels.Find(Id);
+            var panel = await _context.Panels.FindAsync(Id);
+
+            return panel.Adapt<PanelDTO>();            
         }
 
-        public Panel GetPanelByPanelCode(string code)
+        public async Task<PanelDTO> GetPanelByPanelCode(string code)
         {
-            var panel = _context.Panels.FirstOrDefault(x => x.LabPanelCode == code);
-            return panel;
+            var panel = await _context.Panels.FirstOrDefaultAsync(x => x.LabPanelCode == code);
+            return panel.Adapt<PanelDTO>();
         }
 
-        public Panel Update(Panel panelChanges)
-        {
-            var panel = _context.Panels.Attach(panelChanges);
-            panel.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _context.SaveChanges();
-
-            return panelChanges;
-        }
+        
 
 
 

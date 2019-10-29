@@ -8,9 +8,11 @@ namespace GuardianAPI.Interfaces
 {
     public interface IUserRepository
     {
-        User GetUser(int Id);
-        IEnumerable<User> GetAllUsers();
-        User Add(User user);
-        User Update(User userChanges);        
+        Task<User> GetUser(int Id);
+        Task<IEnumerable<User>> GetAllUsers();
+        Task<User> Add(User user);
+        Task<User> Update(User userChanges);
+
+        Task<User> GetUserWithParticipantsByIdAsync(int id);
     }
 }

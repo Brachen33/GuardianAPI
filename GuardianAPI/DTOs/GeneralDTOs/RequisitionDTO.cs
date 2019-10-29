@@ -5,10 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GuardianAPI.Models
+namespace GuardianAPI.DTOs.GeneralDTOs
 {
-    [Table("td_requisition")]
-    public class Requisition
+    public class RequisitionDTO
     {
         public int Id { get; set; }
         [Required]
@@ -24,8 +23,8 @@ namespace GuardianAPI.Models
         public TimeSpan ReqTime { get; set; }
         [ForeignKey("Participant")]
         public int? ParticipantId { get; set; }
-        public string ParticipantIssuedId { get; set; } 
-        public string ParticipantFName { get; set; } 
+        public string ParticipantIssuedId { get; set; }
+        public string ParticipantFName { get; set; }
         public string ParticipantLName { get; set; }
         public string RecordType { get; set; }
         public string CaseNumber { get; set; }
@@ -59,16 +58,5 @@ namespace GuardianAPI.Models
         public DateTime DateUpdated { get; set; }
         public int CreatedBy { get; set; }
         public int UpdatedBy { get; set; }
-
-        public virtual Participant Participant { get; set; }
-        public virtual User User { get; set; }
-
-        public Requisition()
-        {
-           
-        }
-
-                       
-
     }
 }

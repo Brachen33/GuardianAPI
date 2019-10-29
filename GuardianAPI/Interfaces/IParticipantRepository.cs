@@ -22,9 +22,10 @@ namespace GuardianAPI.Interfaces
       //  Participant GetParticipantWithAll(int Id);
         Task<Participant> GetParticipantWithContact(int id);
         // Retrieves Results and Result Details
-       // Participant GetParticipantWithResults(int id);
-        //
-      
+        // Participant GetParticipantWithResults(int id);
+        Task<IEnumerable<DTOs.GeneralDTOs.ParticipantDTO>> GetParticipantAutocompleteSearch(string sString);
+
+
 
     }
 }

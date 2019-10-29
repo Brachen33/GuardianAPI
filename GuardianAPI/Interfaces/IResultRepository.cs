@@ -8,12 +8,10 @@ namespace GuardianAPI.Interfaces
 {
    public interface IResultRepository
     {
-        Result GetResult(int Id);
-        IEnumerable<Result> GetAllResults();
-        Result Add(Result result);
-        Result Update(Result resultChanges);
-        Result GetResultWithDetailById(int id);
-
-
+        Task<Result> GetResult(int Id);
+        Task<IEnumerable<Result>> GetAllResultsAsync();
+    
+        Task<Result> GetResultWithDetailById(int id);
+        Task<IEnumerable<Result>> GetResultsByParticipantId(int participantId);
     }
 }

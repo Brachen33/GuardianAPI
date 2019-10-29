@@ -15,34 +15,35 @@ namespace GuardianAPI.Repositories
         public ResultRepository(AppDbContext context)
         {
             _context = context;
+        }        
+
+        public async Task<IEnumerable<Result>> GetAllResultsAsync()
+        {         
+            return await _context.Results.ToListAsync();
         }
 
-        public Result Add(Result result)
+        public async Task<Result> GetResult(int Id)
         {
-            throw new NotImplementedException();
+            return await _context.Results.FindAsync(Id);
         }
 
-        public IEnumerable<Result> GetAllResults()
+        public async Task<IEnumerable<Result>> GetResultsByParticipantId(int participantId)
         {
-            return _context.Results;
+            var results = await _context.Results.Include(x => x.ResultDetails).Where(x => x.ParticipantId == participantId).ToListAsync();
+
+            return results;
         }
 
-        public Result GetResult(int Id)
+        public async Task<Result> GetResultWithDetailById(int id)
         {
-            return _context.Results.Find(Id);
-        }
-
-        public Result Update(Result resultChanges)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Result GetResultWithDetailById(int id)
-        {
-            return _context.Results
+            return await _context.Results
                 .Include(p => p.Panel)
                 .Include(rd => rd.ResultDetails)             
-                .FirstOrDefault(r => r.Id == id);
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
+
+       
+
+
     }
 }

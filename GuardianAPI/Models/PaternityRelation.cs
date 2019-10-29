@@ -15,7 +15,7 @@ namespace GuardianAPI.Models
         public int TestId { get; set; }
         public string ADCCode { get; set; }
         public string Relation { get; set; }
-        public int CollectionSiteId { get; set; }
+        public int? CollectionSiteId { get; set; }
         public int Active { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }

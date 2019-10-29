@@ -19,28 +19,57 @@ namespace GuardianAPI.Controllers
         }
 
 
+        [Route("GetAll")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok( await _userRepository.GetAllUsers());
+        }
 
+        [Route("GetById/{id}")]
+        [HttpGet]
+        public IActionResult GetUser(int id)
+        {
+            try
+            {
+                var user = _userRepository.GetUser(id);
 
-        //[Route("index")]
-        //public IActionResult GetAll()
-        //{
-        //    return Ok(_userRepository.GetAllUsers());
-        //}
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }           
+        }
 
-        //public IActionResult GetDetails(int id)
-        //{
-        //    return Ok(_userRepository.GetUser(id));
-        //}
+        [HttpPost]
+        [Route("CreateUser")]
+        public IActionResult CreateUser([FromBody]User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var createdUser = _userRepository.Add(user);
+                return Ok(createdUser);
+            }
+            return StatusCode(500, "Internal Server Error");
+        }
 
-        //public IActionResult CreateUser(User user)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var createdUser = _userRepository.Add(user);
-        //        return Ok(createdUser);
-        //    }
-        //    return StatusCode(500, "Internal Server Error");
-        //}
+        [HttpGet]
+        [Route("GetUserWithParticipantsById/{id}")]
+        public async Task<IActionResult> GetUserWithParticipantsById(int id)
+        {
+            try
+            {
+                var user = await _userRepository.GetUserWithParticipantsByIdAsync(id);
+
+                return Ok(user);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }
+        }
 
 
 

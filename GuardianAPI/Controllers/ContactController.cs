@@ -72,7 +72,21 @@ namespace GuardianAPI.Controllers
             {
                 return StatusCode(500, $"{ex.ToString()}");
             }
+        }
 
+        [HttpGet]
+        [Route("GetContactByTypeAndRecordId/{recordId}/{type}")]
+        public async Task<IActionResult> GetContactByTypeAndRecordId(int recordId, string type)
+        {
+            try
+            {
+                var contact = await _contactRepository.GetContactByTypeAndRecordId(recordId, type);
+                return Ok(contact);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }
         }
     }
 }

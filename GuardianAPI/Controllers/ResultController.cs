@@ -47,5 +47,22 @@ namespace GuardianAPI.Controllers
 
             return Ok("Export Complete");
         }
+
+        [HttpGet]
+        [Route("GetResultsByParticipantId/{participantId}")]
+        public async Task<IActionResult> GetResultsByParticipantId(int participantId)
+        {
+            try
+            {
+                return Ok(await _resultRepository.GetResultsByParticipantId(participantId));
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }
+
+
+
+        }
     }
 }

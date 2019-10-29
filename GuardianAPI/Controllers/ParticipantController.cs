@@ -30,7 +30,7 @@ namespace GuardianAPI.Controllers
             _logger = logger;
         }   
        
-        [HttpGet("Details/{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             ParticipantDTO participantDTO = new ParticipantDTO()
@@ -38,6 +38,21 @@ namespace GuardianAPI.Controllers
                 Participant = await _participantRepository.GetParticipant(id ?? 1),
             };
             return Ok(participantDTO);
+        }
+
+        [HttpGet("GetByIssuedId/{issuedId}")]
+        public async Task<IActionResult> GetByIssuedId(string issuedId)
+        {
+            try
+            {
+                var user = await _participantRepository.GetParticipantByIsssuedId(issuedId);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"{ex.ToString()}");
+            }
         }
 
        
@@ -59,15 +74,40 @@ namespace GuardianAPI.Controllers
         [Route("guardiancreateparticipant")]
         public async Task<IActionResult> GuardianCreateParticipant([FromBody] GuardianCreateDTO dto)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                else
+                {
+                    var userAndParticipants = await _externalCreate.GuardianProcess(dto);
+                    return Ok(userAndParticipants);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var userAndParticipants = await _externalCreate.GuardianProcess(dto);             
-                return Ok(userAndParticipants);
+                _logger.LogError(ex.ToString());
+                return StatusCode(500, $"{ex.ToString()}");
             }
         }
+
+        //[HttpGet]
+        //[Route("SearchParticipants/{sString}")]
+        //public async Task<IActionResult> SearchParticipants(string sString)
+        //{
+        //    try
+        //    {
+        //        var participants = await _participantRepository.GetParticipantAutocompleteSearch(sString);
+        //        return Ok(participants);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"{ex.ToString()}");
+        //    }
+        //}
+
+        
     }
 }

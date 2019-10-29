@@ -1,5 +1,8 @@
-﻿using GuardianAPI.Interfaces;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,24 +20,27 @@ namespace GuardianAPI.Repositories
         }
 
 
-        public Region Add(Region region)
+
+        public async Task<RegionDTO> GetByName(string name)
         {
-            throw new NotImplementedException();
+            var region = await _context.Regions.FirstOrDefaultAsync(x => x.Name == name);
+
+            return region.Adapt<RegionDTO>();
         }
 
-        public Region GetRegion(int Id)
+        public async Task<RegionDTO> GetRegion(int Id)
         {
-            return _context.Regions.Find(Id);
+            var region = await _context.Regions.FindAsync(Id);
+
+            return region.Adapt<RegionDTO>();           
         }
 
-        public IEnumerable<Region> Regions()
+        public async Task<IEnumerable<RegionDTO>> Regions()
         {
-            return _context.Regions;
+            var regions = await _context.Regions.ToListAsync();
+
+            return regions.Adapt<IEnumerable<RegionDTO>>();           
         }
 
-        public Region Update(Region regionChanges)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

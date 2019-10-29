@@ -9,17 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GuardianAPI.Controllers
 {
+
+
+    [ApiExplorerSettings(IgnoreApi =true)]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
     {
         private readonly AppDbContext _context;
-       
 
         public TestController(AppDbContext context)
         {
             _context = context;
-          
+
         }
 
         [HttpGet]
@@ -27,7 +29,7 @@ namespace GuardianAPI.Controllers
         public string Test1()
         {
             var x = "Stop here";
-            
+
             return "This is only a test1";
         }
 

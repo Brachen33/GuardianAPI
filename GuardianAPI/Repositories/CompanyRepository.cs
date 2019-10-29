@@ -1,5 +1,7 @@
-﻿using GuardianAPI.Interfaces;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Interfaces;
 using GuardianAPI.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,14 +19,26 @@ namespace GuardianAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Company>> GetCompanies()
+        public async Task<IEnumerable<CompanyDTO>> GetCompanies()
         {
-            return await _context.Companies.ToListAsync();
+            var companies = await _context.Companies.ToListAsync();
+
+            return  companies.Adapt<IEnumerable<CompanyDTO>>();           
         }
 
-        public async Task<Company> GetCompany(int id)
+        public async Task<CompanyDTO> GetCompany(int id)
         {
-            return await _context.Companies.FindAsync(id);
+            var company = await _context.Companies.FindAsync(id);
+
+            return company.Adapt<CompanyDTO>();
+        }
+
+        public async Task<CompanyDTO> GetByName(string name)
+        {
+            var company = await _context.Companies.FirstOrDefaultAsync(x => x.Name == name);
+
+            return company.Adapt<CompanyDTO>();       
+
         }
     }
 }

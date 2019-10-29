@@ -1,4 +1,5 @@
-﻿using GuardianAPI.Models;
+﻿using GuardianAPI.DTOs.GeneralDTOs;
+using GuardianAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ namespace GuardianAPI.Interfaces
 {
     public interface ICompanyRepository
     {
-       Task<Company> GetCompany(int id);
-       Task<IEnumerable<Company>> GetCompanies();
+       Task<CompanyDTO> GetCompany(int id);
+       Task<IEnumerable<CompanyDTO>> GetCompanies();
+        Task<CompanyDTO> GetByName(string name);
       
     }
 }
